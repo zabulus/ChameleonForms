@@ -2,10 +2,10 @@
 <package>
   <metadata>
     <id>
-       ChameleonForms
+       Unofficial.ChameleonForms
     </id>
     <version>
-       1.0.0.0
+       2.0.0-beta3
     </version>
     <authors>
        Robert Moore, Matthew Davies
