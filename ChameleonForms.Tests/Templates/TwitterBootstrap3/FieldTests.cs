@@ -1,9 +1,12 @@
 ﻿using System.Web;
-using System.Web.Mvc;
+
 using ApprovalTests.Html;
 using ApprovalTests.Reporters;
 using ChameleonForms.Component.Config;
 using ChameleonForms.Templates.TwitterBootstrap3;
+using Microsoft.AspNetCore.Html;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
 using NUnit.Framework;
 
 namespace ChameleonForms.Tests.Templates.TwitterBootstrap3
@@ -60,8 +63,7 @@ namespace ChameleonForms.Tests.Templates.TwitterBootstrap3
         public void Output_field_with_prepended_and_appended_html_when_input_group()
         {
             var t = new TwitterBootstrapFormTemplate();
-            var metadata = new ModelMetadata(new EmptyModelMetadataProvider(), typeof(object), () => null, typeof(object), "");
-            metadata.IsRequired = true;
+            var metadata = new DefaultModelMetadata(new EmptyModelMetadataProvider(), null, null, null);
 
             var result = t.Field(new HtmlString("labelhtml"), new HtmlString("elementhtml"), new HtmlString("validationhtml"), metadata, new FieldConfiguration()
                 .Prepend(new HtmlString("<1>")).Prepend(new HtmlString("<2>"))
@@ -78,8 +80,8 @@ namespace ChameleonForms.Tests.Templates.TwitterBootstrap3
         public void Output_field_with_prepended_and_appended_html_when_allowed_input_group()
         {
             var t = new TwitterBootstrapFormTemplate();
-            var metadata = new ModelMetadata(new EmptyModelMetadataProvider(), typeof(object), () => null, typeof(object), "");
-            metadata.IsRequired = true;
+            var metadata = new DefaultModelMetadata(new EmptyModelMetadataProvider(), null, null, null);
+            //metadata.IsRequired = true;
             var fc = new FieldConfiguration();
             fc.Bag.CanBeInputGroup = true;
 
@@ -98,8 +100,8 @@ namespace ChameleonForms.Tests.Templates.TwitterBootstrap3
         public void Output_field_with_prepended_and_appended_html_when_required()
         {
             var t = new TwitterBootstrapFormTemplate();
-            var metadata = new ModelMetadata(new EmptyModelMetadataProvider(), typeof(object), () => null, typeof(object), "");
-            metadata.IsRequired = true;
+            var metadata = new DefaultModelMetadata(new EmptyModelMetadataProvider(), null, null, null);
+            //metadata.IsRequired = true;
 
             var result = t.Field(new HtmlString("labelhtml"), new HtmlString("elementhtml"), new HtmlString("validationhtml"), null, new FieldConfiguration()
                 .Prepend(new HtmlString("<1>")).Prepend(new HtmlString("<2>"))
@@ -117,8 +119,8 @@ namespace ChameleonForms.Tests.Templates.TwitterBootstrap3
             var t = new TwitterBootstrapFormTemplate();
             var fc = new FieldConfiguration();
             fc.Bag.IsCheckboxControl = true;
-            var metadata = new ModelMetadata(new EmptyModelMetadataProvider(), typeof(object), () => null, typeof(object), "");
-            metadata.IsRequired = true;
+            var metadata = new DefaultModelMetadata(new EmptyModelMetadataProvider(), null, null, null);
+            //metadata.IsRequired = true;
 
             var result = t.Field(new HtmlString("labelhtml"), new HtmlString("elementhtml"), new HtmlString("validationhtml"), metadata, fc
                 .Prepend(new HtmlString("<1>")).Prepend(new HtmlString("<2>"))
@@ -136,8 +138,8 @@ namespace ChameleonForms.Tests.Templates.TwitterBootstrap3
             var t = new TwitterBootstrapFormTemplate();
             var fc = new FieldConfiguration();
             fc.Bag.IsRadioOrCheckboxList = true;
-            var metadata = new ModelMetadata(new EmptyModelMetadataProvider(), typeof(object), () => null, typeof(object), "");
-            metadata.IsRequired = true;
+            var metadata = new DefaultModelMetadata(new EmptyModelMetadataProvider(), null, null, null);
+            //metadata.IsRequired = true;
 
             var result = t.Field(new HtmlString("labelhtml"), new HtmlString("elementhtml"), new HtmlString("validationhtml"), metadata, fc
                 .Prepend(new HtmlString("<1>")).Prepend(new HtmlString("<2>"))

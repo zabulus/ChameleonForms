@@ -1,21 +1,23 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System;
 using System.Globalization;
 using System.Linq;
-using System.Web.Mvc;
+using System.Threading.Tasks;
 
 namespace ChameleonForms.ModelBinders
 {
     /// <summary>
     /// Binds a flags enum in a model.
     /// </summary>
-    public class FlagsEnumModelBinder : DefaultModelBinder
+    public class FlagsEnumModelBinder : IModelBinder
     {
         /// <inheritdoc />
-        public override object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
+        public async Task BindModelAsync(ModelBindingContext bindingContext)
         {
             var underlyingType = Nullable.GetUnderlyingType(bindingContext.ModelType) ?? bindingContext.ModelType;
             var value = bindingContext.ValueProvider.GetValue(bindingContext.ModelName);
-            var submittedValue = value == null ? null : value.AttemptedValue;
+            var submittedValue = value == null ? null : value.FirstValue;
 
             if (
                 !underlyingType.IsEnum
@@ -24,8 +26,11 @@ namespace ChameleonForms.ModelBinders
                 ||
                 (string.IsNullOrEmpty(submittedValue))
             )
-                return base.BindModel(controllerContext, bindingContext);
-            
+            {
+                bindingContext.Result = ModelBindingResult.Failed();
+                return;
+            }
+
             var enumValueAsLong = 0L;
             var enumValues = submittedValue.Split(',');
             var error = false;
@@ -45,10 +50,13 @@ namespace ChameleonForms.ModelBinders
             }
 
             if (error)
-                return Activator.CreateInstance(bindingContext.ModelType);
-
-            bindingContext.ModelMetadata.Model = Enum.Parse(underlyingType, enumValueAsLong.ToString());
-            return bindingContext.ModelMetadata.Model;
+            {
+                bindingContext.Result = ModelBindingResult.Success(Activator.CreateInstance(bindingContext.ModelType));
+            }
+            else
+            {
+                bindingContext.Result = ModelBindingResult.Success(Enum.Parse(underlyingType, enumValueAsLong.ToString()));
+            }
         }
     }
 }

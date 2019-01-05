@@ -149,10 +149,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ChameleonForms.Example\ChameleonForms.Example.csproj">
-      <Project>{a51a9fa4-12d6-4980-bef9-d1ded004f16c}</Project>
-      <Name>ChameleonForms.Example</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ChameleonForms\ChameleonForms.csproj">
       <Project>{854754fe-f40a-47eb-b32d-646e8f35c65f}</Project>
       <Name>ChameleonForms</Name>

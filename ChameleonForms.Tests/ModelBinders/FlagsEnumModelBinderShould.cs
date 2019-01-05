@@ -1,9 +1,14 @@
-﻿using System.Web.Mvc;
+﻿
 using ChameleonForms.ModelBinders;
 using ChameleonForms.Tests.Helpers;
 using NUnit.Framework;
 using System.Globalization;
 using ChameleonForms.Tests.FieldGenerator;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System.Collections.Generic;
+using Microsoft.Extensions.Primitives;
 
 namespace ChameleonForms.Tests.ModelBinders
 {
@@ -23,19 +28,17 @@ namespace ChameleonForms.Tests.ModelBinders
         {
             var c = AutoSubstituteContainer.Create();
             _context = c.Resolve<ControllerContext>();
-            _formCollection = new FormCollection();
-
             System.Threading.Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
         }
 
         private ModelBindingContext ArrangeBindingContext()
         {
-            var modelMetadata = ModelMetadataProviders.Current.GetMetadataForType(null, typeof(T));
-            modelMetadata.DisplayName = DisplayName;
-            return new ModelBindingContext
+            var modelMetadata = new EmptyModelMetadataProvider().GetMetadataForType(typeof(T));
+            //modelMetadata.DisplayName = DisplayName;
+            return new DefaultModelBindingContext
             {
                 ModelName = PropertyName,
-                ValueProvider = _formCollection.ToValueProvider(),
+                ValueProvider = new FormValueProvider(BindingSource.Form, _formCollection, CultureInfo.CurrentCulture),
                 ModelMetadata = modelMetadata,
                 ModelState = new ModelStateDictionary(),
             };
@@ -43,7 +46,8 @@ namespace ChameleonForms.Tests.ModelBinders
 
         private T BindModel(ModelBindingContext bindingContext)
         {
-            return (T) (new FlagsEnumModelBinder().BindModel(_context, bindingContext) ?? default(T));
+            new FlagsEnumModelBinder().BindModelAsync(bindingContext).Wait();
+            return (T) (bindingContext.Model ?? default(T));
         }
 
         private static void AssertModelError(ModelBindingContext context, string error)
@@ -57,7 +61,8 @@ namespace ChameleonForms.Tests.ModelBinders
         [Test]
         public void Use_default_model_binder_when_there_is_no_value([Values("", null)] string value)
         {
-            _formCollection[PropertyName] = value;
+            _formCollection = new FormCollection(new Dictionary<string, StringValues>{ {PropertyName, value } });
+            
             var context = ArrangeBindingContext();
 
             var model = BindModel(context);
@@ -69,7 +74,7 @@ namespace ChameleonForms.Tests.ModelBinders
         [Test]
         public void Use_default_value_when_there_is_an_invalid_value()
         {
-            _formCollection[PropertyName] = "invalid";
+            _formCollection = new FormCollection(new Dictionary<string, StringValues> { { PropertyName, "invalid" } });
             var context = ArrangeBindingContext();
 
             var model = BindModel(context);
@@ -80,7 +85,7 @@ namespace ChameleonForms.Tests.ModelBinders
         [Test]
         public void Add_modelstate_error_when_there_is_an_invalid_value()
         {
-            _formCollection[PropertyName] = "invalid";
+            _formCollection = new FormCollection(new Dictionary<string, StringValues> { { PropertyName, "invalid" } });
             var context = ArrangeBindingContext();
 
             BindModel(context);
@@ -91,7 +96,7 @@ namespace ChameleonForms.Tests.ModelBinders
         [Test]
         public void Return_and_bind_value_if_single_value_ok()
         {
-            _formCollection[PropertyName] = TestFlagsEnum.Simplevalue.ToString();
+            _formCollection = new FormCollection(new Dictionary<string, StringValues> { { PropertyName, TestFlagsEnum.Simplevalue.ToString() } });
             var context = ArrangeBindingContext();
 
             var model = BindModel(context);
@@ -103,7 +108,7 @@ namespace ChameleonForms.Tests.ModelBinders
         [Test]
         public void Return_and_bind_value_if_multiple_value_ok()
         {
-            _formCollection[PropertyName] = TestFlagsEnum.Simplevalue + "," + TestFlagsEnum.ValueWithDescriptionAttribute;
+            _formCollection = new FormCollection(new Dictionary<string, StringValues> { { PropertyName, TestFlagsEnum.Simplevalue + "," + TestFlagsEnum.ValueWithDescriptionAttribute } });
             var context = ArrangeBindingContext();
 
             var model = BindModel(context);

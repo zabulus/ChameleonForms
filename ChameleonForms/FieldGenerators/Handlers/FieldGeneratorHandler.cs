@@ -2,12 +2,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Web;
-using System.Web.Mvc;
-using System.Web.Mvc.Html;
+
+
 using ChameleonForms.Component.Config;
 using ChameleonForms.Enums;
 using ChameleonForms.Templates;
 using System.Linq;
+using Microsoft.AspNetCore.Html;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.ViewFeatures.Internal;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ChameleonForms.FieldGenerators.Handlers
 {
@@ -30,7 +36,7 @@ namespace ChameleonForms.FieldGenerators.Handlers
         /// </summary>
         /// <param name="fieldConfiguration">The field configuration to use to generate the HTML</param>
         /// <returns>The HTML for the Field Element</returns>
-        IHtmlString GenerateFieldHtml(IReadonlyFieldConfiguration fieldConfiguration);
+        IHtmlContent GenerateFieldHtml(IReadonlyFieldConfiguration fieldConfiguration);
 
         /// <summary>
         /// Modify the field configuration for the field using this field generator handler.
@@ -85,7 +91,7 @@ namespace ChameleonForms.FieldGenerators.Handlers
         /// <inheritdoc />
         public abstract bool CanHandle();
         /// <inheritdoc />
-        public abstract IHtmlString GenerateFieldHtml(IReadonlyFieldConfiguration fieldConfiguration);
+        public abstract IHtmlContent GenerateFieldHtml(IReadonlyFieldConfiguration fieldConfiguration);
         /// <inheritdoc />
         public virtual void PrepareFieldConfiguration(IFieldConfiguration fieldConfiguration) {}
         /// <inheritdoc />
@@ -189,17 +195,37 @@ namespace ChameleonForms.FieldGenerators.Handlers
         /// <param name="fieldGenerator">The field generator wrapping the field</param>
         /// <param name="fieldConfiguration">The field configuration to use for attributes and format string</param>
         /// <returns>The HTML of the input element</returns>
-        protected static IHtmlString GetInputHtml(TextInputType inputType, IFieldGenerator<TModel, T> fieldGenerator, IReadonlyFieldConfiguration fieldConfiguration)
+        protected static IHtmlContent GetInputHtml(TextInputType inputType, IFieldGenerator<TModel, T> fieldGenerator, IReadonlyFieldConfiguration fieldConfiguration)
         {
             if (inputType == TextInputType.Password)
+            {
                 return fieldGenerator.HtmlHelper.PasswordFor(fieldGenerator.FieldProperty, fieldConfiguration.HtmlAttributes);
+            }
 
             var attrs = new HtmlAttributes(fieldConfiguration.HtmlAttributes);
             if (!attrs.Attributes.ContainsKey("type"))
+            {
                 attrs = attrs.Attr(type => inputType.ToString().ToLower());
-            return !string.IsNullOrEmpty(fieldConfiguration.FormatString)
-                ? fieldGenerator.HtmlHelper.TextBoxFor(fieldGenerator.FieldProperty, fieldConfiguration.FormatString, attrs.ToDictionary())
-                : fieldGenerator.HtmlHelper.TextBoxFor(fieldGenerator.FieldProperty, attrs.ToDictionary());
+            }
+
+            IHtmlContent htmlContent;
+            if (!string.IsNullOrEmpty(fieldConfiguration.FormatString))
+            {
+                htmlContent = fieldGenerator.HtmlHelper.TextBoxFor(fieldGenerator.FieldProperty
+                    , fieldConfiguration.FormatString
+                    , attrs.ToDictionary()
+                    );
+            }
+            else
+            {
+               ModelExplorer modelExplorer = ExpressionMetadataProvider.FromLambdaExpression(fieldGenerator.FieldProperty, fieldGenerator.HtmlHelper.ViewData, fieldGenerator.HtmlHelper.MetadataProvider);
+                
+                htmlContent = fieldGenerator.HtmlHelper.TextBoxFor(fieldGenerator.FieldProperty
+                    , attrs.ToDictionary()
+                    );
+            }
+
+            return htmlContent;
         }
 
         private static bool HasEmptySelectListItem(IFieldGenerator<TModel, T> fieldGenerator, IReadonlyFieldConfiguration fieldConfiguration)
@@ -240,7 +266,7 @@ namespace ChameleonForms.FieldGenerators.Handlers
         /// <param name="fieldGenerator">The field generator wrapping the field</param>
         /// <param name="fieldConfiguration">The field configuration to use for attributes and empty item configuration</param>
         /// <returns></returns>
-        protected static IHtmlString GetSelectListHtml(IEnumerable<SelectListItem> selectList, IFieldGenerator<TModel, T> fieldGenerator, IReadonlyFieldConfiguration fieldConfiguration)
+        protected static IHtmlContent GetSelectListHtml(IEnumerable<SelectListItem> selectList, IFieldGenerator<TModel, T> fieldGenerator, IReadonlyFieldConfiguration fieldConfiguration)
         {
             if (HasEmptySelectListItem(fieldGenerator, fieldConfiguration))
                 selectList = new []{GetEmptySelectListItem(fieldGenerator, fieldConfiguration)}.Union(selectList);
@@ -301,7 +327,7 @@ namespace ChameleonForms.FieldGenerators.Handlers
             };
         }
 
-        private static IEnumerable<IHtmlString> SelectListToRadioList(IEnumerable<SelectListItem> selectList, IFieldGenerator<TModel, T> fieldGenerator, IReadonlyFieldConfiguration fieldConfiguration)
+        private static IEnumerable<IHtmlContent> SelectListToRadioList(IEnumerable<SelectListItem> selectList, IFieldGenerator<TModel, T> fieldGenerator, IReadonlyFieldConfiguration fieldConfiguration)
         {
             var count = 0;
             foreach (var item in selectList)
@@ -345,7 +371,7 @@ namespace ChameleonForms.FieldGenerators.Handlers
             var name = ExpressionHelper.GetExpressionText(fieldGenerator.FieldProperty);
             var fullName = fieldGenerator.HtmlHelper.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(name);
 
-            ModelState modelState;
+            ModelStateEntry modelState;
             if (fieldGenerator.HtmlHelper.ViewContext.ViewData.ModelState.TryGetValue(fullName, out modelState))
             {
                 if (modelState.Errors.Count > 0)
@@ -354,8 +380,11 @@ namespace ChameleonForms.FieldGenerators.Handlers
                 }
             }
 
-            // ReSharper disable once MustUseReturnValue
-            attrs.Attrs(fieldGenerator.HtmlHelper.GetUnobtrusiveValidationAttributes(name, ModelMetadata.FromLambdaExpression(fieldGenerator.FieldProperty, fieldGenerator.HtmlHelper.ViewData)));
+            var validationHtmlAttributeProvider = fieldGenerator.HtmlHelper.ViewContext.HttpContext.RequestServices.GetRequiredService<ValidationHtmlAttributeProvider>();
+            validationHtmlAttributeProvider.AddAndTrackValidationAttributes(fieldGenerator.HtmlHelper.ViewContext
+                , ExpressionMetadataProvider.FromLambdaExpression(fieldGenerator.FieldProperty, fieldGenerator.HtmlHelper.ViewData, fieldGenerator.HtmlHelper.MetadataProvider)
+                , name
+                , attrs.Attributes);
         }
     }
 }

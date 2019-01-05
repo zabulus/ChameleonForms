@@ -1,43 +1,57 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System;
 using System.Globalization;
-using System.Web.Mvc;
+using System.Threading.Tasks;
 
 namespace ChameleonForms.ModelBinders
 {
     /// <summary>
     /// Binds a datetime in a model using the display format string.
     /// </summary>
-    public class DateTimeModelBinder : DefaultModelBinder
+    public class DateTimeModelBinder : IModelBinder
     {
         /// <inheritdoc />
-        public override object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
+        public async Task BindModelAsync(ModelBindingContext bindingContext)
         {
             var underlyingType = Nullable.GetUnderlyingType(bindingContext.ModelType) ?? bindingContext.ModelType;
-            var value = bindingContext.ValueProvider.GetValue(bindingContext.ModelName);
-            var submittedValue = value == null ? null : value.AttemptedValue;
-            var formatString = bindingContext.ModelMetadata.DisplayFormatString;
 
-            if (
-                underlyingType != typeof(DateTime)
-                ||
-                string.IsNullOrEmpty(formatString)
-                ||
-                string.IsNullOrEmpty(submittedValue)
-            )
-                return base.BindModel(controllerContext, bindingContext);
-
-            DateTime parsedDate;
-            if (!DateTime.TryParseExact(submittedValue, formatString.Replace("{0:", "").Replace("}", ""), CultureInfo.CurrentCulture.DateTimeFormat, DateTimeStyles.None, out parsedDate))
+            if(underlyingType != typeof(DateTime))
             {
-                bindingContext.ModelState.AddModelError(bindingContext.ModelName, string.Format("The value '{0}' is not valid for {1}.", submittedValue, bindingContext.ModelMetadata.DisplayName ?? bindingContext.ModelMetadata.PropertyName));
-                bindingContext.ModelMetadata.Model = bindingContext.ModelType.IsValueType
-                    ? Activator.CreateInstance(bindingContext.ModelType)
-                    : null;
-                return bindingContext.ModelMetadata.Model;
+                bindingContext.ModelState.TryAddModelError(bindingContext.ModelName, "DateTimeModelBinder used not for DateTime property");
             }
 
-            bindingContext.ModelMetadata.Model = parsedDate;
-            return parsedDate;
+            var formatString = bindingContext.ModelMetadata.DisplayFormatString;
+            if (string.IsNullOrEmpty(formatString))
+            {
+                bindingContext.ModelState.TryAddModelError(bindingContext.ModelName, "DisplayFormatString is null or empty");
+                return;
+            }
+
+            var value = bindingContext.ValueProvider.GetValue(bindingContext.ModelName);
+            var submittedValue = value == default(ValueProviderResult) ? null : value.FirstValue;
+
+            if (string.IsNullOrEmpty(submittedValue))
+            {
+                bindingContext.ModelState.TryAddModelError(bindingContext.ModelName, "Submitted null or empty string");
+                return;
+            }
+
+            if (!DateTime.TryParseExact(submittedValue
+                , formatString.Replace("{0:", "").Replace("}", "")
+                , CultureInfo.CurrentCulture.DateTimeFormat
+                , DateTimeStyles.None
+                , out DateTime parsedDate
+                ))
+            {
+                bindingContext.ModelState.AddModelError(bindingContext.ModelName
+                    , string.Format("The value '{0}' is not valid for {1}. Format of date is {2}.", submittedValue, bindingContext.ModelMetadata.DisplayName ?? bindingContext.ModelMetadata.PropertyName, formatString)
+                    );
+            }
+            else
+            {
+                bindingContext.Result = ModelBindingResult.Success(parsedDate);
+            }
         }
     }
 }

@@ -1,12 +1,31 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
+using System.Text.Encodings.Web;
 using System.Web;
-using System.Web.Mvc;
-using System.Web.Routing;
 using Autofac;
 using AutofacContrib.NSubstitute;
 using ChameleonForms.Example;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Internal;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Abstractions;
+using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.AspNetCore.Mvc.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.DataAnnotations.Internal;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.AspNetCore.Mvc.ViewEngines;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.AspNetCore.Mvc.ViewFeatures.Internal;
+using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Primitives;
 using NSubstitute;
 
 namespace ChameleonForms.Tests.Helpers
@@ -24,95 +43,113 @@ namespace ChameleonForms.Tests.Helpers
                 ? new AutoSubstitute(createAction)
                 : new AutoSubstitute();
 
-            var httpContext = Substitute.For<HttpContextBase>();
+            var httpContext = Substitute.For<HttpContext>();
+            var services = Substitute.For<IServiceProvider>();
+            httpContext.RequestServices = services;
+            services.GetService(null).Returns(x =>
+            {
+                return autoSubstitute.Container.Resolve(x.ArgAt<Type>(0));
+            });
+
             autoSubstitute.Provide(httpContext);
 
-            var server = Substitute.For<HttpServerUtilityBase>();
-            httpContext.Server.Returns(server);
-
-            var request = Substitute.For<HttpRequestBase>();
-            var parameters = new NameValueCollection();
-            request.Params.Returns(parameters);
-            var formParameters = new NameValueCollection();
+            var request = Substitute.For<HttpRequest>();
+            var formParameters = new FormCollection(new Dictionary<string, StringValues>());
             request.Form.Returns(formParameters);
-            var qsParameters = new NameValueCollection();
-            request.QueryString.Returns(qsParameters);
-            var headers = new NameValueCollection { { "Host", "localhost" } };
+            var qsParameters = new QueryCollection();
+            request.Query.Returns(qsParameters);
+            var headers = new HeaderDictionary { { "Host", "localhost" } };
             request.Headers.Returns(headers);
-            request.AppRelativeCurrentExecutionFilePath.Returns("~/");
-            request.ApplicationPath.Returns("/");
-            request.Url.Returns(new Uri("http://localhost/"));
-            request.Cookies.Returns(new HttpCookieCollection());
-            request.ServerVariables.Returns(new NameValueCollection());
-            request.UserHostAddress.Returns("127.0.0.1");
+            request.Cookies.Returns(new RequestCookieCollection());
             autoSubstitute.Provide(request);
             httpContext.Request.Returns(request);
 
-            var response = Substitute.For<HttpResponseBase>();
-            response.Cookies.Returns(new HttpCookieCollection());
-            response.ApplyAppPathModifier(Arg.Any<string>()).Returns(a => a.Arg<string>());
+            var response = Substitute.For<HttpResponse>();
+            //response.Cookies.Returns(new ResponseCookies());
             autoSubstitute.Provide(response);
             httpContext.Response.Returns(response);
 
             var routeData = new RouteData();
 
-            var requestContext = Substitute.For<RequestContext>();
-            requestContext.RouteData = routeData;
-            requestContext.HttpContext = httpContext;
+            var actionDescriptor = new ControllerActionDescriptor();
+            var requestContext = new ActionContext(httpContext, routeData, actionDescriptor);
             autoSubstitute.Provide(requestContext);
 
-            var actionExecutingContext = Substitute.For<ActionExecutingContext>();
-            actionExecutingContext.HttpContext.Returns(httpContext);
-            actionExecutingContext.RouteData.Returns(routeData);
-            actionExecutingContext.RequestContext = requestContext;
-            autoSubstitute.Provide(actionExecutingContext);
+            autoSubstitute.Provide(HtmlEncoder.Default);
+            autoSubstitute.Provide(UrlEncoder.Default);
+            //var actionExecutingContext = Substitute.For<ActionExecutingContext>(requestContext);
+            //actionExecutingContext.HttpContext.Returns(httpContext);
+            //actionExecutingContext.RouteData.Returns(routeData);
+            //autoSubstitute.Provide(actionExecutingContext);
 
-            var actionExecutedContext = Substitute.For<ActionExecutedContext>();
-            actionExecutedContext.HttpContext.Returns(httpContext);
-            actionExecutedContext.RouteData.Returns(routeData);
-            actionExecutedContext.RequestContext = requestContext;
-            autoSubstitute.Provide(actionExecutedContext);
+            //var actionExecutedContext = Substitute.For<ActionExecutedContext>(requestContext);
+            //actionExecutedContext.HttpContext.Returns(httpContext);
+            //actionExecutedContext.RouteData.Returns(routeData);
+            //autoSubstitute.Provide(actionExecutedContext);
 
             var controller = Substitute.For<ControllerBase>();
             autoSubstitute.Provide(controller);
-            actionExecutingContext.Controller.Returns(controller);
+            //actionExecutingContext.Controller.Returns(controller);
 
-            var controllerContext = Substitute.For<ControllerContext>();
+            var controllerContext = new ControllerContext(requestContext);
             controllerContext.HttpContext = httpContext;
             controllerContext.RouteData = routeData;
-            controllerContext.RequestContext = requestContext;
-            controllerContext.Controller = controller;
             autoSubstitute.Provide(controllerContext);
             controller.ControllerContext = controllerContext;
 
+            IOptions<MvcOptions> mvcOptions = Substitute.For<IOptions<MvcOptions>>();
+            mvcOptions.Value.Returns(new MvcOptions());
+
+            IOptions<MvcDataAnnotationsLocalizationOptions> dataAnnotationOptions = Substitute.For<IOptions<MvcDataAnnotationsLocalizationOptions>>();
+            dataAnnotationOptions.Value.Returns(new MvcDataAnnotationsLocalizationOptions());
+
+            autoSubstitute.Provide(mvcOptions);
+
+            var anotationsMetadataProvider = autoSubstitute.Resolve<DataAnnotationsMetadataProvider>();
+            autoSubstitute.Provide<IBindingMetadataProvider>(anotationsMetadataProvider);
+            autoSubstitute.Provide<IMetadataDetailsProvider>(anotationsMetadataProvider);
+            autoSubstitute.Provide<IDisplayMetadataProvider>(anotationsMetadataProvider);
+            autoSubstitute.Provide<IValidationMetadataProvider>(anotationsMetadataProvider);
+
+
+            var metadataProvider = autoSubstitute.Resolve<DefaultModelMetadataProvider>();
+            autoSubstitute.Provide<IModelMetadataProvider>(metadataProvider);
+
             var iView = Substitute.For<IView>();
             autoSubstitute.Provide(iView);
-
-            var viewDataDictionary = new ViewDataDictionary();
+            var viewDataDictionary = new ViewDataDictionary(metadataProvider, new ModelStateDictionary());
             autoSubstitute.Provide(viewDataDictionary);
-
-            var iViewDataContainer = Substitute.For<IViewDataContainer>();
-            iViewDataContainer.ViewData.Returns(viewDataDictionary);
-            autoSubstitute.Provide(iViewDataContainer);
 
             var textWriter = Substitute.For<TextWriter>();
             autoSubstitute.Provide(textWriter);
 
-            var viewContext = new ViewContext(controllerContext, iView, viewDataDictionary, new TempDataDictionary(), textWriter)
-            {
-                HttpContext = httpContext,
-                RouteData = routeData,
-                RequestContext = requestContext,
-                Controller = controller
-            };
-            autoSubstitute.Provide(viewContext);
+            IValidationAttributeAdapterProvider validationAttributeAdapterProvider = new ValidationAttributeAdapterProvider();
 
-            var htmlHelper = new HtmlHelper(viewContext, new ViewPage());
-            autoSubstitute.Provide(htmlHelper);
+            var mvcViewOptionsWrap = Substitute.For<IOptions<MvcViewOptions>>();
 
-            RouteTable.Routes.Clear();
-            RouteConfig.RegisterRoutes(RouteTable.Routes);
-            autoSubstitute.Provide(new UrlHelper(autoSubstitute.Resolve<RequestContext>(), RouteTable.Routes));
+            MvcViewOptionsSetup optionsSetup = new MvcViewOptionsSetup(dataAnnotationOptions, validationAttributeAdapterProvider);
+            var mvcViewOptions = new MvcViewOptions();
+            mvcViewOptionsWrap.Value.Returns(mvcViewOptions);
+            optionsSetup.Configure(mvcViewOptions);
+            autoSubstitute.Provide<IOptions<MvcViewOptions>>(mvcViewOptionsWrap);
+            autoSubstitute.Provide<ValidationHtmlAttributeProvider>(autoSubstitute.Resolve<DefaultValidationHtmlAttributeProvider>());
+            autoSubstitute.Provide<IHtmlGenerator>(autoSubstitute.Resolve<DefaultHtmlGenerator>());
+
+            var tempDataDictionary = new TempDataDictionary(httpContext, Substitute.For<ITempDataProvider>());
+
+            //var viewContext = new ViewContext(controllerContext, iView, viewDataDictionary, tempDataDictionary, textWriter, new HtmlHelperOptions())
+            //{
+            //    HttpContext = httpContext,
+            //    RouteData = routeData,
+            //    //RequestContext = requestContext,
+            //    //Controller = controller
+            //};
+            //autoSubstitute.Provide(viewContext);
+
+            //var htmlHelper = new HtmlHelper(viewContext, new ViewPage());
+            //autoSubstitute.Provide(htmlHelper);
+
+            autoSubstitute.Provide(new UrlHelper(autoSubstitute.Resolve<ActionContext>()));
 
             return autoSubstitute;
         }
