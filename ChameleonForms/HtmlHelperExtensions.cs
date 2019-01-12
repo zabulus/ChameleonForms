@@ -44,10 +44,8 @@ namespace ChameleonForms
         public static DisposableHtmlHelper<TModel> For<TModel>(this IHtmlHelper htmlHelper, TModel model = default(TModel), string htmlFieldPrefix = null)
         {
             var viewContext = htmlHelper.ViewContext;
-            var newViewData = new ViewDataDictionary(viewContext.ViewData)
-            {
-                Model = model
-            };
+            var newViewData = new ViewDataDictionary<TModel>(htmlHelper.MetadataProvider, new ModelStateDictionary());
+            newViewData.Model = model;
 
             var templateInfo = newViewData.TemplateInfo;
 
