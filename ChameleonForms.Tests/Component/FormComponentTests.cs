@@ -60,11 +60,11 @@ namespace ChameleonForms.Tests.Component
         }
 
         [Test]
-        public void Return_null_when_serialising_html_string_if_not_self_closing()
+        public void Return_empty_string_when_serialising_html_string_if_not_self_closing()
         {
             var f = Arrange(!Self.Closing);
 
-            Assert.That(f.ToHtmlString(), Is.Null);
+            Assert.That(f.ToHtmlString(), Is.EqualTo(string.Empty));
         }
 
         [Test]
