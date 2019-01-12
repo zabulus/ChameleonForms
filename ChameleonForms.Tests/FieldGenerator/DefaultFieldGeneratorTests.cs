@@ -145,7 +145,7 @@ namespace ChameleonForms.Tests.FieldGenerator
         [ExistsIn("IntList", "Id", "Name")]
         public ICollection<int?> OptionalNullableIntListIds { get; set; }
 
-        [ReadOnly(true)]
+        [Editable(false)]
         public int ReadonlyInt { get; set; }
 
         public ChildViewModel Child { get; set; }

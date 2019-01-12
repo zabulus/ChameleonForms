@@ -92,11 +92,15 @@ namespace ChameleonForms.FieldGenerators.Handlers
                 }
                 else
                 {
-                    return new HtmlString(string.Format("{0} {1}", fieldhtml, HtmlCreator.BuildLabel(
+                    HtmlContentBuilder bld = new HtmlContentBuilder();
+                    bld.AppendHtml(fieldhtml)
+                        .Append(" ")
+                        .AppendHtml(HtmlCreator.BuildLabel(
                         GetFieldName(FieldGenerator),
                         fieldConfiguration.InlineLabelText ?? FieldGenerator.GetFieldDisplayName().ToHtml(),
                         null
-                        )));
+                        ));
+                    return bld;
                 }
             }
             else

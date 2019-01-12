@@ -334,18 +334,30 @@ namespace ChameleonForms.FieldGenerators.Handlers
             {
                 var id = string.Format("{0}_{1}", GetFieldName(fieldGenerator), ++count);
                 var attrs = new HtmlAttributes(fieldConfiguration.HtmlAttributes);
-                if (item.Selected)
-                    attrs = attrs.Attr("checked", "checked");
                 attrs = attrs.Id(id);
                 if (HasMultipleValues(fieldGenerator))
                     AdjustHtmlForModelState(attrs, fieldGenerator);
                 var fieldHtml = HasMultipleValues(fieldGenerator)
                         ? HtmlCreator.BuildSingleCheckbox(GetFieldName(fieldGenerator), item.Selected, attrs, item.Value)
-                        : fieldGenerator.HtmlHelper.RadioButtonFor(fieldGenerator.FieldProperty, item.Value, attrs.ToDictionary());
+                        : fieldGenerator.HtmlHelper.RadioButton(ExpressionHelper.GetExpressionText(fieldGenerator.FieldProperty), item.Value, item.Selected, attrs.ToDictionary()); // fieldGenerator.HtmlHelper.RadioButtonFor(fieldGenerator.FieldProperty, item.Value, attrs.ToDictionary());
                 if (fieldConfiguration.ShouldInlineLabelWrapElement)
-                    yield return new HtmlString(string.Format("<label>{0} {1}</label>", fieldHtml, item.Text));
+                {
+                    HtmlContentBuilder bld = new HtmlContentBuilder();
+                    bld.AppendHtml("<label>")
+                        .AppendHtml(fieldHtml)
+                        .Append(" ")
+                        .AppendHtml(item.Text)
+                        .AppendHtml("</label>");
+                    yield return bld;
+                }
                 else
-                    yield return new HtmlString(string.Format("{0} {1}", fieldHtml, fieldGenerator.HtmlHelper.Label(id, item.Text)));
+                {
+                    HtmlContentBuilder bld = new HtmlContentBuilder();
+                    bld.AppendHtml(fieldHtml)
+                        .Append(" ")
+                        .AppendHtml(fieldGenerator.HtmlHelper.Label(id, item.Text));
+                    yield return bld;
+                }
             }
         }
 

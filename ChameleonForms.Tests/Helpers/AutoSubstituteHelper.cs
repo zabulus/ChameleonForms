@@ -5,6 +5,7 @@ using System.IO;
 using System.Text.Encodings.Web;
 using System.Web;
 using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using AutofacContrib.NSubstitute;
 using ChameleonForms.Example;
 using Microsoft.AspNetCore.Http;
@@ -15,8 +16,10 @@ using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.DataAnnotations.Internal;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Mvc.Internal;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
@@ -37,46 +40,74 @@ namespace ChameleonForms.Tests.Helpers
             return Create(null);
         }
 
+        public static IModelMetadataProvider CreateDefaultProvider(AutoSubstitute autoSubstitute)
+        {
+            var detailsProviders = new IMetadataDetailsProvider[]
+            {
+                new DefaultBindingMetadataProvider(),
+                new DefaultValidationMetadataProvider(),
+                autoSubstitute.Resolve<DataAnnotationsMetadataProvider>(),
+                // new DataMemberRequiredBindingMetadataProvider(),
+            };
+
+            var compositeDetailsProvider = new DefaultCompositeMetadataDetailsProvider(detailsProviders);
+            return new DefaultModelMetadataProvider(compositeDetailsProvider);
+        }
+
         public static AutoSubstitute Create(Action<ContainerBuilder> createAction)
         {
             AutoSubstitute autoSubstitute = createAction != null
                 ? new AutoSubstitute(createAction)
                 : new AutoSubstitute();
 
-            var httpContext = Substitute.For<HttpContext>();
-            var services = Substitute.For<IServiceProvider>();
-            httpContext.RequestServices = services;
-            services.GetService(null).Returns(x =>
-            {
-                return autoSubstitute.Container.Resolve(x.ArgAt<Type>(0));
-            });
+            var httpContext = new DefaultHttpContext();
 
-            autoSubstitute.Provide(httpContext);
+            httpContext.RequestServices = new AutofacServiceProvider(autoSubstitute.Container);
 
-            var request = Substitute.For<HttpRequest>();
+            autoSubstitute.Provide<HttpContext>(httpContext);
+
+            var request = httpContext.Request;
+            request.ContentType = "application/x-www-form-urlencoded";
             var formParameters = new FormCollection(new Dictionary<string, StringValues>());
-            request.Form.Returns(formParameters);
+            request.Form = formParameters;
             var qsParameters = new QueryCollection();
-            request.Query.Returns(qsParameters);
+            request.Query = qsParameters;
             var headers = new HeaderDictionary { { "Host", "localhost" } };
-            request.Headers.Returns(headers);
-            request.Cookies.Returns(new RequestCookieCollection());
-            autoSubstitute.Provide(request);
-            httpContext.Request.Returns(request);
+            request.Headers.Add("Host", "localhost");
+            request.Cookies = new RequestCookieCollection();
+            autoSubstitute.Provide<HttpRequest>(request);
 
-            var response = Substitute.For<HttpResponse>();
+            var response = httpContext.Response;
             //response.Cookies.Returns(new ResponseCookies());
-            autoSubstitute.Provide(response);
-            httpContext.Response.Returns(response);
+            autoSubstitute.Provide<HttpResponse>(response);
 
             var routeData = new RouteData();
-
-            var actionDescriptor = new ControllerActionDescriptor();
-            var requestContext = new ActionContext(httpContext, routeData, actionDescriptor);
-            autoSubstitute.Provide(requestContext);
+            var modelState = new ModelStateDictionary();
+            var actionDescriptor = new PageActionDescriptor();
+            var actionContext = new ActionContext(httpContext, routeData, actionDescriptor, modelState);
+            autoSubstitute.Provide(actionContext);
 
             autoSubstitute.Provide(HtmlEncoder.Default);
             autoSubstitute.Provide(UrlEncoder.Default);
+
+            IOptions<MvcDataAnnotationsLocalizationOptions> dataAnnotationsLocalizationOptions = Substitute.For<IOptions<MvcDataAnnotationsLocalizationOptions>>();
+            dataAnnotationsLocalizationOptions.Value.Returns(new MvcDataAnnotationsLocalizationOptions());
+            autoSubstitute.Provide(dataAnnotationsLocalizationOptions);
+            IOptions<MvcOptions> mvcOptions = Substitute.For<IOptions<MvcOptions>>();
+            mvcOptions.Value.Returns(new MvcOptions());
+            autoSubstitute.Provide(mvcOptions);
+
+            var metadataProvider = CreateDefaultProvider(autoSubstitute);
+            var viewData = new ViewDataDictionary(metadataProvider, modelState);
+            var tempData = new TempDataDictionary(httpContext, Substitute.For<ITempDataProvider>());
+            var pageContext = new PageContext(actionContext)
+            {
+                ViewData = viewData
+            };
+            autoSubstitute.Provide(pageContext);
+            autoSubstitute.Provide(tempData);
+            autoSubstitute.Provide(viewData);
+
             //var actionExecutingContext = Substitute.For<ActionExecutingContext>(requestContext);
             //actionExecutingContext.HttpContext.Returns(httpContext);
             //actionExecutingContext.RouteData.Returns(routeData);
@@ -87,32 +118,20 @@ namespace ChameleonForms.Tests.Helpers
             //actionExecutedContext.RouteData.Returns(routeData);
             //autoSubstitute.Provide(actionExecutedContext);
 
-            var controller = Substitute.For<ControllerBase>();
-            autoSubstitute.Provide(controller);
-            //actionExecutingContext.Controller.Returns(controller);
+            //var controller = Substitute.For<ControllerBase>();
+            //autoSubstitute.Provide(controller);
+            ////actionExecutingContext.Controller.Returns(controller);
 
-            var controllerContext = new ControllerContext(requestContext);
-            controllerContext.HttpContext = httpContext;
-            controllerContext.RouteData = routeData;
-            autoSubstitute.Provide(controllerContext);
-            controller.ControllerContext = controllerContext;
+            //var controllerContext = new ControllerContext(actionContext);
+            //controllerContext.HttpContext = httpContext;
+            //controllerContext.RouteData = routeData;
+            //autoSubstitute.Provide(controllerContext);
+            //controller.ControllerContext = controllerContext;
 
-            IOptions<MvcOptions> mvcOptions = Substitute.For<IOptions<MvcOptions>>();
-            mvcOptions.Value.Returns(new MvcOptions());
 
             IOptions<MvcDataAnnotationsLocalizationOptions> dataAnnotationOptions = Substitute.For<IOptions<MvcDataAnnotationsLocalizationOptions>>();
             dataAnnotationOptions.Value.Returns(new MvcDataAnnotationsLocalizationOptions());
 
-            autoSubstitute.Provide(mvcOptions);
-
-            var anotationsMetadataProvider = autoSubstitute.Resolve<DataAnnotationsMetadataProvider>();
-            autoSubstitute.Provide<IBindingMetadataProvider>(anotationsMetadataProvider);
-            autoSubstitute.Provide<IMetadataDetailsProvider>(anotationsMetadataProvider);
-            autoSubstitute.Provide<IDisplayMetadataProvider>(anotationsMetadataProvider);
-            autoSubstitute.Provide<IValidationMetadataProvider>(anotationsMetadataProvider);
-
-
-            var metadataProvider = autoSubstitute.Resolve<DefaultModelMetadataProvider>();
             autoSubstitute.Provide<IModelMetadataProvider>(metadataProvider);
 
             var iView = Substitute.For<IView>();
@@ -125,6 +144,8 @@ namespace ChameleonForms.Tests.Helpers
 
             IValidationAttributeAdapterProvider validationAttributeAdapterProvider = new ValidationAttributeAdapterProvider();
 
+            autoSubstitute.Provide(validationAttributeAdapterProvider);
+
             var mvcViewOptionsWrap = Substitute.For<IOptions<MvcViewOptions>>();
 
             MvcViewOptionsSetup optionsSetup = new MvcViewOptionsSetup(dataAnnotationOptions, validationAttributeAdapterProvider);
@@ -134,8 +155,6 @@ namespace ChameleonForms.Tests.Helpers
             autoSubstitute.Provide<IOptions<MvcViewOptions>>(mvcViewOptionsWrap);
             autoSubstitute.Provide<ValidationHtmlAttributeProvider>(autoSubstitute.Resolve<DefaultValidationHtmlAttributeProvider>());
             autoSubstitute.Provide<IHtmlGenerator>(autoSubstitute.Resolve<DefaultHtmlGenerator>());
-
-            var tempDataDictionary = new TempDataDictionary(httpContext, Substitute.For<ITempDataProvider>());
 
             //var viewContext = new ViewContext(controllerContext, iView, viewDataDictionary, tempDataDictionary, textWriter, new HtmlHelperOptions())
             //{
@@ -150,6 +169,9 @@ namespace ChameleonForms.Tests.Helpers
             //autoSubstitute.Provide(htmlHelper);
 
             autoSubstitute.Provide(new UrlHelper(autoSubstitute.Resolve<ActionContext>()));
+
+
+            autoSubstitute.Provide<ValidationHtmlAttributeProvider>(autoSubstitute.Resolve<DefaultValidationHtmlAttributeProvider>());
 
             return autoSubstitute;
         }

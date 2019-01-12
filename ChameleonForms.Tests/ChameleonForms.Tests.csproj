@@ -22,6 +22,7 @@
     <PackageReference Include="ApprovalTests" Version="3.0.18" />
     <PackageReference Include="ApprovalUtilities" Version="3.0.18" />
     <PackageReference Include="Autofac" Version="4.8.1" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.3.1" />
     <PackageReference Include="AutofacContrib.NSubstitute" Version="4.0.1" />
     <PackageReference Include="Humanizer" Version="2.5.16" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
