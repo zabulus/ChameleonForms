@@ -8,6 +8,7 @@ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using AutofacContrib.NSubstitute;
 using ChameleonForms.Example;
+using ChameleonForms.Metadata;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Mvc;
@@ -19,6 +20,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Internal;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.Routing;
@@ -48,6 +50,7 @@ namespace ChameleonForms.Tests.Helpers
                 new DefaultValidationMetadataProvider(),
                 autoSubstitute.Resolve<DataAnnotationsMetadataProvider>(),
                 // new DataMemberRequiredBindingMetadataProvider(),
+                new DisplayMetadataProvider(),
             };
 
             var compositeDetailsProvider = new DefaultCompositeMetadataDetailsProvider(detailsProviders);
@@ -169,9 +172,6 @@ namespace ChameleonForms.Tests.Helpers
             //autoSubstitute.Provide(htmlHelper);
 
             autoSubstitute.Provide(new UrlHelper(autoSubstitute.Resolve<ActionContext>()));
-
-
-            autoSubstitute.Provide<ValidationHtmlAttributeProvider>(autoSubstitute.Resolve<DefaultValidationHtmlAttributeProvider>());
 
             return autoSubstitute;
         }
