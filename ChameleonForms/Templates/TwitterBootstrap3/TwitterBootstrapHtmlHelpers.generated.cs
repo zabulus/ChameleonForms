@@ -24,22 +24,22 @@ namespace ChameleonForms.Generated
 
 #line 3 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
     using ChameleonForms.Component.Config;
-    
-    #line default
-    #line hidden
-    
-    #line 4 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+
+#line default
+#line hidden
+
+#line 4 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
     using ChameleonForms.Templates.TwitterBootstrap3;
-    
-    #line default
-    #line hidden
-    
-    #line 2 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+
+#line default
+#line hidden
+
+#line 2 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
     using Microsoft.AspNetCore.Html;
-    
-    #line default
-    #line hidden
-    
+
+#line default
+#line hidden
+
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
     public static class TwitterBootstrapHtmlHelpers
     {
@@ -75,10 +75,12 @@ return new HelperResult(async __razor_helper_writer => {
 
 
 #line 12 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                                                                                                     
+                                                                                                   
 
 #line default
 #line hidden
+
+WebViewPage.WriteLiteralTo(@__razor_helper_writer, "    ");
 
 WebViewPage.WriteLiteralTo(@__razor_helper_writer, "    <fieldset");
 
@@ -100,8 +102,6 @@ WebViewPage.WriteLiteralTo(@__razor_helper_writer, ">\r\n");
 
 #line default
 #line hidden
-
-WebViewPage.WriteLiteralTo(@__razor_helper_writer, "    ");
 
 WebViewPage.WriteLiteralTo(@__razor_helper_writer, "        <legend>");
 
@@ -125,8 +125,6 @@ WebViewPage.WriteLiteralTo(@__razor_helper_writer, "</legend>\r\n");
 #line default
 #line hidden
 
-WebViewPage.WriteLiteralTo(@__razor_helper_writer, "    ");
-
 WebViewPage.WriteLiteralTo(@__razor_helper_writer, "        ");
 
 
@@ -143,13 +141,13 @@ WebViewPage.WriteLiteralTo(@__razor_helper_writer, "\r\n");
 
 #line 21 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
     }
-    
+
 #line default
 #line hidden
 
 });
 
-    }
+}
 
 
 public static HelperResult EndSection() {
@@ -158,41 +156,37 @@ return new HelperResult(async __razor_helper_writer => {
 
 
 #line 24 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                          
+                      
 
 #line default
 #line hidden
-
-WebViewPage.WriteLiteralTo(@__razor_helper_writer, "    ");
 
 WebViewPage.WriteLiteralTo(@__razor_helper_writer, "    </fieldset>\r\n");
 
 
 
 #line 26 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-    
+
 #line default
 #line hidden
 
 });
 
-    }
+}
 
 
 public static HelperResult BeginNestedSection(IHtmlContent heading, IHtmlContent leadingHtml, HtmlAttributes htmlAttributes)
-    {
+{
 return new HelperResult(async __razor_helper_writer => {
 
 
 
 #line 29 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-     
+ 
     htmlAttributes.AddClass("panel panel-default");
 
 #line default
 #line hidden
-
-WebViewPage.WriteLiteralTo(@__razor_helper_writer, "    ");
 
 WebViewPage.WriteLiteralTo(@__razor_helper_writer, "    <div");
 
@@ -209,20 +203,18 @@ WebViewPage.WriteLiteralTo(@__razor_helper_writer, ">\r\n");
 
 
 #line 32 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-        if (heading != null && !string.IsNullOrWhiteSpace(heading.ToString()))
-        {
+    if (heading != null && !string.IsNullOrWhiteSpace(heading.ToString()))
+    {
 
 #line default
 #line hidden
-
-WebViewPage.WriteLiteralTo(@__razor_helper_writer, "        ");
 
 WebViewPage.WriteLiteralTo(@__razor_helper_writer, "        <div class=\"panel-heading\">");
 
 
 
 #line 34 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-  WebViewPage.WriteTo(@__razor_helper_writer, heading);
+WebViewPage.WriteTo(@__razor_helper_writer, heading);
 
 #line default
 #line hidden
@@ -232,22 +224,20 @@ WebViewPage.WriteLiteralTo(@__razor_helper_writer, "</div>\r\n");
 
 
 #line 35 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-        }
+    }
 
 
 #line default
 #line hidden
-
-WebViewPage.WriteLiteralTo(@__razor_helper_writer, "        ");
 
 WebViewPage.WriteLiteralTo(@__razor_helper_writer, "        <div class=\"panel-body\">\r\n");
 
 
 
 #line 38 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-            if (leadingHtml != null && !string.IsNullOrWhiteSpace(leadingHtml.ToString()))
-            {
-            
+    if (leadingHtml != null && !string.IsNullOrWhiteSpace(leadingHtml.ToString()))
+    {
+        
 #line default
 #line hidden
 
@@ -260,15 +250,15 @@ WebViewPage.WriteTo(@__razor_helper_writer, leadingHtml);
 
 
 #line 40 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                        
-            }
-            
+                    
+    }
+
 #line default
 #line hidden
 
 });
 
-            }
+}
 
 
 public static HelperResult EndNestedSection() {
@@ -277,35 +267,27 @@ return new HelperResult(async __razor_helper_writer => {
 
 
 #line 44 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                                        
+                            
 
 #line default
 #line hidden
-
-WebViewPage.WriteLiteralTo(@__razor_helper_writer, "            ");
-
-WebViewPage.WriteLiteralTo(@__razor_helper_writer, "\r\n");
-
-
 
 WebViewPage.WriteLiteralTo(@__razor_helper_writer, "        </div>\r\n");
 
 
 
-WebViewPage.WriteLiteralTo(@__razor_helper_writer, "        ");
-
 WebViewPage.WriteLiteralTo(@__razor_helper_writer, "    </div>\r\n");
 
 
 
-#line 48 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-        
+#line 47 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+
 #line default
 #line hidden
 
 });
 
-        }
+}
 
 
 public static HelperResult BeginField(IHtmlContent labelHtml, IHtmlContent elementHtml, IHtmlContent validationHtml, ModelMetadata fieldMetadata, IReadonlyFieldConfiguration fieldConfiguration, bool isValid, IHtmlContent requiredDesignator) {
@@ -313,52 +295,46 @@ return new HelperResult(async __razor_helper_writer => {
 
 
 
-#line 50 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                                                                                                                                                                                                                                       
-        
+#line 49 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+                                                                                                                                                                                                                           
+
 #line default
 #line hidden
 
 
-#line 51 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+#line 50 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
 WebViewPage.WriteTo(@__razor_helper_writer, BeginFieldInternal(labelHtml, elementHtml, validationHtml, fieldConfiguration, fieldMetadata, isValid, requiredDesignator));
 
 #line default
 #line hidden
 
 
-#line 51 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                                                                                                                                   
+#line 50 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+                                                                                                                           
 
 #line default
 #line hidden
-
-WebViewPage.WriteLiteralTo(@__razor_helper_writer, "        ");
 
 WebViewPage.WriteLiteralTo(@__razor_helper_writer, "            <div class=\"row nested-fields\">\r\n");
 
 
 
-WebViewPage.WriteLiteralTo(@__razor_helper_writer, "            ");
-
 WebViewPage.WriteLiteralTo(@__razor_helper_writer, "                <div class=\"col-xs-1\"></div>\r\n");
 
 
-
-WebViewPage.WriteLiteralTo(@__razor_helper_writer, "            ");
 
 WebViewPage.WriteLiteralTo(@__razor_helper_writer, "                <div class=\"col-xs-11\">\r\n");
 
 
 
-#line 55 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                
+#line 54 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+
 #line default
 #line hidden
 
 });
 
-                }
+}
 
 
 public static HelperResult EndField() {
@@ -366,15 +342,13 @@ return new HelperResult(async __razor_helper_writer => {
 
 
 
-#line 57 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                                    
+#line 56 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+                    
 
 #line default
 #line hidden
 
-WebViewPage.WriteLiteralTo(@__razor_helper_writer, "                ");
-
-WebViewPage.WriteLiteralTo(@__razor_helper_writer, "\r\n");
+WebViewPage.WriteLiteralTo(@__razor_helper_writer, "                </div>\r\n");
 
 
 
@@ -382,30 +356,18 @@ WebViewPage.WriteLiteralTo(@__razor_helper_writer, "            </div>\r\n");
 
 
 
-WebViewPage.WriteLiteralTo(@__razor_helper_writer, "            ");
-
-WebViewPage.WriteLiteralTo(@__razor_helper_writer, "\r\n");
-
-
-
 WebViewPage.WriteLiteralTo(@__razor_helper_writer, "        </div>\r\n");
 
 
 
-WebViewPage.WriteLiteralTo(@__razor_helper_writer, "        ");
+#line 60 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
 
-WebViewPage.WriteLiteralTo(@__razor_helper_writer, "        </div>\r\n");
-
-
-
-#line 63 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-        
 #line default
 #line hidden
 
 });
 
-        }
+}
 
 
 public static HelperResult GetInputGroupHtml(IHtmlContent html, bool isInputGroup) {
@@ -413,55 +375,55 @@ return new HelperResult(async __razor_helper_writer => {
 
 
 
-#line 65 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                                                                         
-        
+#line 62 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+                                                                
+
 #line default
 #line hidden
 
 
-#line 66 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+#line 63 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
 WebViewPage.WriteTo(@__razor_helper_writer, new HtmlString(isInputGroup ? "<div class=\"input-group-addon\">" : ""));
 
 #line default
 #line hidden
 
 
-#line 66 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                                                                                    
+#line 63 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+                                                                          
 #line default
 #line hidden
 
 
-#line 66 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                                         WebViewPage.WriteTo(@__razor_helper_writer, html);
-
-#line default
-#line hidden
-
-
-#line 66 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                                                                                         
-#line default
-#line hidden
-
-
-#line 66 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                                               WebViewPage.WriteTo(@__razor_helper_writer, new HtmlString(isInputGroup ? "</div>" : ""));
+#line 63 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+                               WebViewPage.WriteTo(@__razor_helper_writer, html);
 
 #line default
 #line hidden
 
 
-#line 66 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                                                                                                                                          
-        
+#line 63 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+                                                                               
+#line default
+#line hidden
+
+
+#line 63 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+                                     WebViewPage.WriteTo(@__razor_helper_writer, new HtmlString(isInputGroup ? "</div>" : ""));
+
+#line default
+#line hidden
+
+
+#line 63 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+                                                                                                                              
+
 #line default
 #line hidden
 
 });
 
-        }
+}
 
 
 public static HelperResult GetPrependedHtml(IReadonlyFieldConfiguration fieldConfiguration, bool isInputGroup) {
@@ -469,29 +431,29 @@ return new HelperResult(async __razor_helper_writer => {
 
 
 
-#line 69 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                                                                                                     
-        foreach (var html in fieldConfiguration.PrependedHtml) {
+#line 66 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+                                                                                             
+    foreach (var html in fieldConfiguration.PrependedHtml) {
 #line default
 #line hidden
 
 
-#line 70 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                     WebViewPage.WriteTo(@__razor_helper_writer, GetInputGroupHtml(html, isInputGroup));
+#line 67 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+                 WebViewPage.WriteTo(@__razor_helper_writer, GetInputGroupHtml(html, isInputGroup));
 
 #line default
 #line hidden
 
 
-#line 70 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                                                                                                      }
-        
+#line 67 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+                                                                                                  }
+
 #line default
 #line hidden
 
 });
 
-        }
+}
 
 
 public static HelperResult GetAppendedHtml(IReadonlyFieldConfiguration fieldConfiguration, bool isInputGroup) {
@@ -499,29 +461,29 @@ return new HelperResult(async __razor_helper_writer => {
 
 
 
-#line 73 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                                                                                                    
-        foreach (var html in fieldConfiguration.AppendedHtml) {
+#line 70 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+                                                                                            
+    foreach (var html in fieldConfiguration.AppendedHtml) {
 #line default
 #line hidden
 
 
-#line 74 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                    WebViewPage.WriteTo(@__razor_helper_writer, GetInputGroupHtml(html, isInputGroup));
+#line 71 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+                WebViewPage.WriteTo(@__razor_helper_writer, GetInputGroupHtml(html, isInputGroup));
 
 #line default
 #line hidden
 
 
-#line 74 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                                                                                                     }
-        
+#line 71 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+                                                                                                 }
+
 #line default
 #line hidden
 
 });
 
-        }
+}
 
 
 public static HelperResult GetHint(IReadonlyFieldConfiguration fieldConfiguration) {
@@ -529,9 +491,9 @@ return new HelperResult(async __razor_helper_writer => {
 
 
 
-#line 77 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                                                                         
-        if (fieldConfiguration.Hint != null) {
+#line 74 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+                                                                 
+    if (fieldConfiguration.Hint != null) {
 #line default
 #line hidden
 
@@ -539,8 +501,8 @@ WebViewPage.WriteLiteralTo(@__razor_helper_writer, "<div class=\"help-block form
 
 
 
-#line 78 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                                     WebViewPage.WriteTo(@__razor_helper_writer, fieldConfiguration.Hint);
+#line 75 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+                                 WebViewPage.WriteTo(@__razor_helper_writer, fieldConfiguration.Hint);
 
 #line default
 #line hidden
@@ -549,15 +511,15 @@ WebViewPage.WriteLiteralTo(@__razor_helper_writer, "</div>");
 
 
 
-#line 78 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                                                                                                              }
-        
+#line 75 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+                                                                                                          }
+
 #line default
 #line hidden
 
 });
 
-        }
+}
 
 
 public static HelperResult GetPostElementRequiredDesignator(bool isRequired, bool displayDesignator, IHtmlContent requiredDesignator) {
@@ -565,30 +527,30 @@ return new HelperResult(async __razor_helper_writer => {
 
 
 
-#line 81 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                                                                                                                            
-        if (!isRequired) { return; }
-        if (displayDesignator) {
+#line 78 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+                                                                                                                   
+    if (!isRequired) { return; }
+    if (displayDesignator) {
 #line default
 #line hidden
 
 
-#line 83 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+#line 80 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
 WebViewPage.WriteTo(@__razor_helper_writer, requiredDesignator);
 
 #line default
 #line hidden
 
 
-#line 83 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                                                   }
-        
+#line 80 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+                                               }
+
 #line default
 #line hidden
 
 });
 
-        }
+}
 
 
 public static HelperResult GetInputGroupRequiredDesignator(bool isRequired, bool isInputGroup, IHtmlContent requiredDesignator) {
@@ -596,10 +558,10 @@ return new HelperResult(async __razor_helper_writer => {
 
 
 
-#line 86 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                                                                                                                      
-        if (!isRequired) { return; }
-        if (isInputGroup) {
+#line 83 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+                                                                                                             
+    if (!isRequired) { return; }
+    if (isInputGroup) {
 #line default
 #line hidden
 
@@ -607,8 +569,8 @@ WebViewPage.WriteLiteralTo(@__razor_helper_writer, "<div class=\"input-group-add
 
 
 
-#line 88 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                        WebViewPage.WriteTo(@__razor_helper_writer, requiredDesignator);
+#line 85 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+                    WebViewPage.WriteTo(@__razor_helper_writer, requiredDesignator);
 
 #line default
 #line hidden
@@ -617,15 +579,15 @@ WebViewPage.WriteLiteralTo(@__razor_helper_writer, "</div>");
 
 
 
-#line 88 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                                                                                            }
-        
+#line 85 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+                                                                                        }
+
 #line default
 #line hidden
 
 });
 
-        }
+}
 
 
 public static HelperResult RequiredDesignator(IReadonlyFieldConfiguration fieldConfiguration) {
@@ -633,24 +595,24 @@ return new HelperResult(async __razor_helper_writer => {
 
 
 
-#line 91 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                                                                                    
+#line 88 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+                                                                            
 
 #line default
 #line hidden
 
-WebViewPage.WriteLiteralTo(@__razor_helper_writer, "        <em class=\"required\" title=\"Required\">&lowast;</em>\r\n");
+WebViewPage.WriteLiteralTo(@__razor_helper_writer, "<em class=\"required\" title=\"Required\">&lowast;</em>\r\n");
 
 
 
-#line 93 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-        
+#line 90 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+
 #line default
 #line hidden
 
 });
 
-        }
+}
 
 
 public static HelperResult GetLabelHtml(IHtmlContent labelHtml, bool hasLabel, bool isCheckboxControl, bool displayDesignator, bool isRequired, IHtmlContent requiredDesignator) {
@@ -658,10 +620,10 @@ return new HelperResult(async __razor_helper_writer => {
 
 
 
-#line 95 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                                                                                                                                                                       
-        var wrapLabel = !hasLabel && !isCheckboxControl;
-        if (wrapLabel) {
+#line 92 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+                                                                                                                                                             
+    var wrapLabel = !hasLabel && !isCheckboxControl;
+    if (wrapLabel) {
 
 #line default
 #line hidden
@@ -672,62 +634,58 @@ WebViewPage.WriteLiteralTo(@__razor_helper_writer, "<span class=\"control-label\
 
 
 
-#line 99 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-            }
-            
+#line 96 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+    }
+    
 #line default
 #line hidden
 
 
-#line 100 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+#line 97 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
 WebViewPage.WriteTo(@__razor_helper_writer, labelHtml);
 
 #line default
 #line hidden
 
 
-#line 100 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                      
-            if (displayDesignator && isRequired) {
-            
+#line 97 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+              
+    if (displayDesignator && isRequired) {
+        
 #line default
 #line hidden
 
 
-#line 102 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+#line 99 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
 WebViewPage.WriteTo(@__razor_helper_writer, requiredDesignator);
 
 #line default
 #line hidden
 
 
-#line 102 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                               
-            }
-            if (wrapLabel) {
+#line 99 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+                           
+    }
+    if (wrapLabel) {
 
 #line default
 #line hidden
 
-WebViewPage.WriteLiteralTo(@__razor_helper_writer, "            ");
+WebViewPage.WriteLiteralTo(@__razor_helper_writer, "        ");
 
-WebViewPage.WriteLiteralTo(@__razor_helper_writer, "\r\n");
-
-
-
-WebViewPage.WriteLiteralTo(@__razor_helper_writer, "        </span>\r\n");
+WebViewPage.WriteLiteralTo(@__razor_helper_writer, "</span>\r\n");
 
 
 
-#line 107 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-        }
-        
+#line 103 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+    }
+
 #line default
 #line hidden
 
 });
 
-        }
+}
 
 
 public static HelperResult BeginFieldInternal(IHtmlContent labelHtml, IHtmlContent elementHtml, IHtmlContent validationHtml, IReadonlyFieldConfiguration fieldConfiguration, ModelMetadata fieldMetadata, bool isValid, IHtmlContent requiredDesignator) {
@@ -735,45 +693,39 @@ return new HelperResult(async __razor_helper_writer => {
 
 
 
-#line 110 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                                                                                                                                                                                                                                               
-        var isCheckboxControl = fieldConfiguration.GetBagData<bool>
-            ("IsCheckboxControl");
-            var canBeInputGroup = fieldConfiguration.GetBagData<bool>
-                ("CanBeInputGroup");
-                var isRadioOrCheckboxList = fieldConfiguration.GetBagData<bool>
-                    ("IsRadioOrCheckboxList");
-                    var isRequired = fieldMetadata != null && fieldMetadata.IsRequired;
-                    var isInputGroup = canBeInputGroup && (isRequired || fieldConfiguration.GetBagData<bool>
-                        ("DisplayAsInputGroup"));
+#line 106 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+                                                                                                                                                                                                                                   
+    var isCheckboxControl = fieldConfiguration.GetBagData<bool>("IsCheckboxControl");
+    var canBeInputGroup = fieldConfiguration.GetBagData<bool>("CanBeInputGroup");
+    var isRadioOrCheckboxList = fieldConfiguration.GetBagData<bool>("IsRadioOrCheckboxList");
+    var isRequired = fieldMetadata != null && fieldMetadata.IsRequired;
+    var isInputGroup = canBeInputGroup && (isRequired || fieldConfiguration.GetBagData<bool>("DisplayAsInputGroup"));
 
 #line default
 #line hidden
-
-WebViewPage.WriteLiteralTo(@__razor_helper_writer, "                        ");
 
 WebViewPage.WriteLiteralTo(@__razor_helper_writer, "            <div class=\"");
 
 
 
-#line 120 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-        WebViewPage.WriteTo(@__razor_helper_writer, isCheckboxControl ? "checkbox" : "form-group");
+#line 112 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+WebViewPage.WriteTo(@__razor_helper_writer, isCheckboxControl ? "checkbox" : "form-group");
 
 #line default
 #line hidden
 
 
 
-#line 120 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                                                        WebViewPage.WriteTo(@__razor_helper_writer, !isValid ? " has-error" : string.Empty);
+#line 112 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+                                WebViewPage.WriteTo(@__razor_helper_writer, !isValid ? " has-error" : string.Empty);
 
 #line default
 #line hidden
 
 
 
-#line 120 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                                                                                                 WebViewPage.WriteTo(@__razor_helper_writer, RenderIfNotEmpty(fieldConfiguration.FieldContainerClasses,item => new HelperResult(async __razor_template_writer => {
+#line 112 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+                                                                         WebViewPage.WriteTo(@__razor_helper_writer, RenderIfNotEmpty(fieldConfiguration.FieldContainerClasses,item => new HelperResult(async __razor_template_writer => {
 
 #line default
 #line hidden
@@ -783,16 +735,16 @@ WebViewPage.WriteLiteralTo(@__razor_template_writer, " ");
 
 
 
-#line 120 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                                                                                                                                                                  WebViewPage.WriteTo(@__razor_template_writer, fieldConfiguration.FieldContainerClasses);
+#line 112 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+                                                                                                                                          WebViewPage.WriteTo(@__razor_template_writer, fieldConfiguration.FieldContainerClasses);
 
 #line default
 #line hidden
 
 
 
-#line 120 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                                                                                                                                                                                                                                                             })));
+#line 112 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+                                                                                                                                                                                                                                     })));
 
 #line default
 #line hidden
@@ -801,79 +753,75 @@ WebViewPage.WriteLiteralTo(@__razor_helper_writer, "\">\r\n");
 
 
 
-#line 121 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                            
+#line 113 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+              
 #line default
 #line hidden
 
 
-#line 121 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+#line 113 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
 WebViewPage.WriteTo(@__razor_helper_writer, GetLabelHtml(labelHtml, fieldConfiguration.HasLabelElement, isCheckboxControl, isRadioOrCheckboxList || (!isCheckboxControl && !isInputGroup), isRequired, requiredDesignator));
 
 #line default
 #line hidden
 
 
-#line 121 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                                                                                                                                                                                                           
-                            if (isInputGroup)
-                            {
+#line 113 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+                                                                                                                                                                                             
+              if (isInputGroup)
+              {
 
 #line default
 #line hidden
-
-WebViewPage.WriteLiteralTo(@__razor_helper_writer, "                            ");
 
 WebViewPage.WriteLiteralTo(@__razor_helper_writer, "            <div class=\"input-group\">\r\n");
 
 
 
-#line 125 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                                }
+#line 117 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+              }
 
 #line default
 #line hidden
-
-WebViewPage.WriteLiteralTo(@__razor_helper_writer, "                                ");
 
 WebViewPage.WriteLiteralTo(@__razor_helper_writer, "            ");
 
 
 
-#line 126 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-   WebViewPage.WriteTo(@__razor_helper_writer, GetPrependedHtml(fieldConfiguration, isInputGroup));
+#line 118 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+WebViewPage.WriteTo(@__razor_helper_writer, GetPrependedHtml(fieldConfiguration, isInputGroup));
 
 #line default
 #line hidden
 
 
 
-#line 126 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                                                      WebViewPage.WriteTo(@__razor_helper_writer, elementHtml);
+#line 118 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+                      WebViewPage.WriteTo(@__razor_helper_writer, elementHtml);
 
 #line default
 #line hidden
 
 
 
-#line 126 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                                                                  WebViewPage.WriteTo(@__razor_helper_writer, GetPostElementRequiredDesignator(isRequired, isCheckboxControl, requiredDesignator));
+#line 118 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+                                  WebViewPage.WriteTo(@__razor_helper_writer, GetPostElementRequiredDesignator(isRequired, isCheckboxControl, requiredDesignator));
 
 #line default
 #line hidden
 
 
 
-#line 126 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                                                                                                                                                      WebViewPage.WriteTo(@__razor_helper_writer, GetAppendedHtml(fieldConfiguration, isInputGroup));
+#line 118 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+                                                                                                                      WebViewPage.WriteTo(@__razor_helper_writer, GetAppendedHtml(fieldConfiguration, isInputGroup));
 
 #line default
 #line hidden
 
 
 
-#line 126 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                                                                                                                                                                                                        WebViewPage.WriteTo(@__razor_helper_writer, GetInputGroupRequiredDesignator(isRequired, isInputGroup, requiredDesignator));
+#line 118 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+                                                                                                                                                                        WebViewPage.WriteTo(@__razor_helper_writer, GetInputGroupRequiredDesignator(isRequired, isInputGroup, requiredDesignator));
 
 #line default
 #line hidden
@@ -882,36 +830,28 @@ WebViewPage.WriteLiteralTo(@__razor_helper_writer, "\r\n");
 
 
 
-#line 127 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                                if (isInputGroup)
-                                {
+#line 119 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+              if (isInputGroup)
+              {
 
 #line default
 #line hidden
 
-WebViewPage.WriteLiteralTo(@__razor_helper_writer, "                                ");
-
-WebViewPage.WriteLiteralTo(@__razor_helper_writer, "\r\n");
+WebViewPage.WriteLiteralTo(@__razor_helper_writer, "            </div>\r\n");
 
 
 
-WebViewPage.WriteLiteralTo(@__razor_helper_writer, "                            </div>\r\n");
-
-
-
-#line 131 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                            }
+#line 122 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+              }
 
 #line default
 #line hidden
-
-WebViewPage.WriteLiteralTo(@__razor_helper_writer, "                            ");
 
 WebViewPage.WriteLiteralTo(@__razor_helper_writer, "            ");
 
 
 
-#line 132 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+#line 123 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
 WebViewPage.WriteTo(@__razor_helper_writer, GetHint(fieldConfiguration));
 
 #line default
@@ -921,8 +861,8 @@ WebViewPage.WriteLiteralTo(@__razor_helper_writer, " ");
 
 
 
-#line 132 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                            WebViewPage.WriteTo(@__razor_helper_writer, validationHtml);
+#line 123 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+WebViewPage.WriteTo(@__razor_helper_writer, validationHtml);
 
 #line default
 #line hidden
@@ -931,14 +871,14 @@ WebViewPage.WriteLiteralTo(@__razor_helper_writer, "\r\n");
 
 
 
-#line 133 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                            
+#line 124 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+
 #line default
 #line hidden
 
 });
 
-                            }
+}
 
 
 public static HelperResult Field(IHtmlContent labelHtml, IHtmlContent elementHtml, IHtmlContent validationHtml, ModelMetadata fieldMetadata, IReadonlyFieldConfiguration fieldConfiguration, bool isValid, IHtmlContent requiredDesignator) {
@@ -946,44 +886,38 @@ return new HelperResult(async __razor_helper_writer => {
 
 
 
-#line 135 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                                                                                                                                                                                                                                                      
-                            
+#line 126 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+                                                                                                                                                                                                                      
+
 #line default
 #line hidden
 
 
-#line 136 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+#line 127 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
 WebViewPage.WriteTo(@__razor_helper_writer, BeginFieldInternal(labelHtml, elementHtml, validationHtml, fieldConfiguration, fieldMetadata, isValid, requiredDesignator));
 
 #line default
 #line hidden
 
 
-#line 136 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                                                                                                                                                       
+#line 127 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+                                                                                                                           
 
 #line default
 #line hidden
 
-WebViewPage.WriteLiteralTo(@__razor_helper_writer, "                            ");
-
-WebViewPage.WriteLiteralTo(@__razor_helper_writer, "\r\n");
+WebViewPage.WriteLiteralTo(@__razor_helper_writer, "            </div>\r\n");
 
 
 
-WebViewPage.WriteLiteralTo(@__razor_helper_writer, "                        </div>\r\n");
+#line 129 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
 
-
-
-#line 139 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                        
 #line default
 #line hidden
 
 });
 
-                        }
+}
 
 
 public static HelperResult BeginMessage(EmphasisStyle messageType, IHtmlContent heading, bool emptyHeading) {
@@ -991,20 +925,18 @@ return new HelperResult(async __razor_helper_writer => {
 
 
 
-#line 141 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                                                                                               
+#line 131 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+                                                                      
 
 #line default
 #line hidden
-
-WebViewPage.WriteLiteralTo(@__razor_helper_writer, "                        ");
 
 WebViewPage.WriteLiteralTo(@__razor_helper_writer, "      <div class=\"panel ");
 
 
 
-#line 142 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-       WebViewPage.WriteTo(@__razor_helper_writer, string.Format("panel-{0}", messageType.ToString().ToLower()));
+#line 132 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+WebViewPage.WriteTo(@__razor_helper_writer, string.Format("panel-{0}", messageType.ToString().ToLower()));
 
 #line default
 #line hidden
@@ -1013,21 +945,19 @@ WebViewPage.WriteLiteralTo(@__razor_helper_writer, "\">\r\n");
 
 
 
-#line 143 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                            if (!emptyHeading)
-                            {
+#line 133 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+            if (!emptyHeading)
+            {
 
 #line default
 #line hidden
-
-WebViewPage.WriteLiteralTo(@__razor_helper_writer, "                            ");
 
 WebViewPage.WriteLiteralTo(@__razor_helper_writer, "          <div class=\"panel-heading\"><h4 class=\"panel-title\">");
 
 
 
-#line 145 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                                                WebViewPage.WriteTo(@__razor_helper_writer, heading);
+#line 135 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+                    WebViewPage.WriteTo(@__razor_helper_writer, heading);
 
 #line default
 #line hidden
@@ -1036,26 +966,24 @@ WebViewPage.WriteLiteralTo(@__razor_helper_writer, "</h4></div>\r\n");
 
 
 
-#line 146 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                            }
+#line 136 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+            }
 
 #line default
 #line hidden
-
-WebViewPage.WriteLiteralTo(@__razor_helper_writer, "                            ");
 
 WebViewPage.WriteLiteralTo(@__razor_helper_writer, "          <div class=\"panel-body\">\r\n");
 
 
 
-#line 148 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                                
+#line 138 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+
 #line default
 #line hidden
 
 });
 
-                                }
+}
 
 
 public static HelperResult EndMessage() {
@@ -1063,40 +991,28 @@ return new HelperResult(async __razor_helper_writer => {
 
 
 
-#line 150 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                                                      
+#line 140 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+                      
 
 #line default
 #line hidden
 
-WebViewPage.WriteLiteralTo(@__razor_helper_writer, "                                ");
-
-WebViewPage.WriteLiteralTo(@__razor_helper_writer, "\r\n");
+WebViewPage.WriteLiteralTo(@__razor_helper_writer, "          </div>\r\n");
 
 
 
-WebViewPage.WriteLiteralTo(@__razor_helper_writer, "                            </div>\r\n");
+WebViewPage.WriteLiteralTo(@__razor_helper_writer, "      </div>\r\n");
 
 
 
-WebViewPage.WriteLiteralTo(@__razor_helper_writer, "                            ");
+#line 143 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
 
-WebViewPage.WriteLiteralTo(@__razor_helper_writer, "\r\n");
-
-
-
-WebViewPage.WriteLiteralTo(@__razor_helper_writer, "                        </div>\r\n");
-
-
-
-#line 155 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                        
 #line default
 #line hidden
 
 });
 
-                        }
+}
 
 
 public static HelperResult BeginNavigation() {
@@ -1104,26 +1020,24 @@ return new HelperResult(async __razor_helper_writer => {
 
 
 
-#line 157 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                                                   
+#line 145 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+                           
 
 #line default
 #line hidden
-
-WebViewPage.WriteLiteralTo(@__razor_helper_writer, "                        ");
 
 WebViewPage.WriteLiteralTo(@__razor_helper_writer, "        <div class=\"btn-group\">\r\n");
 
 
 
-#line 159 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                            
+#line 147 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+
 #line default
 #line hidden
 
 });
 
-                            }
+}
 
 
 public static HelperResult EndNavigation() {
@@ -1131,50 +1045,43 @@ return new HelperResult(async __razor_helper_writer => {
 
 
 
-#line 161 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                                                     
+#line 149 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+                         
 
 #line default
 #line hidden
 
-WebViewPage.WriteLiteralTo(@__razor_helper_writer, "                            ");
-
-WebViewPage.WriteLiteralTo(@__razor_helper_writer, "\r\n");
+WebViewPage.WriteLiteralTo(@__razor_helper_writer, "        </div>\r\n");
 
 
 
-WebViewPage.WriteLiteralTo(@__razor_helper_writer, "                        </div>\r\n");
+#line 151 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
 
-
-
-#line 164 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                        
 #line default
 #line hidden
 
 });
 
-                        }
+}
 
 
-public static HelperResult RadioOrCheckboxList(IEnumerable<IHtmlContent>
-                            items, bool isCheckbox) {
+public static HelperResult RadioOrCheckboxList(IEnumerable<IHtmlContent> items, bool isCheckbox) {
 return new HelperResult(async __razor_helper_writer => {
 
 
 
-#line 167 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                                                     
-                            foreach (var item in items) {
+#line 153 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+                                                                              
+    foreach (var item in items) {
 
 #line default
 #line hidden
 
-WebViewPage.WriteLiteralTo(@__razor_helper_writer, "                            <div class=\"");
+WebViewPage.WriteLiteralTo(@__razor_helper_writer, "        <div class=\"");
 
 
 
-#line 169 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+#line 155 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
 WebViewPage.WriteTo(@__razor_helper_writer, isCheckbox ? "checkbox" : "radio");
 
 #line default
@@ -1184,8 +1091,8 @@ WebViewPage.WriteLiteralTo(@__razor_helper_writer, "\">");
 
 
 
-#line 169 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                                   WebViewPage.WriteTo(@__razor_helper_writer, item);
+#line 155 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+               WebViewPage.WriteTo(@__razor_helper_writer, item);
 
 #line default
 #line hidden
@@ -1194,46 +1101,45 @@ WebViewPage.WriteLiteralTo(@__razor_helper_writer, "</div>\r\n");
 
 
 
-#line 170 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                            }
-                            
+#line 156 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+    }
+
 #line default
 #line hidden
 
 });
 
-                            }
+}
 
 
-public static HelperResult RenderIfNotEmpty(string mayBeEmpty, Func<object, IHtmlContent>
-                                template) {
+public static HelperResult RenderIfNotEmpty(string mayBeEmpty, Func<object, IHtmlContent> template) {
 return new HelperResult(async __razor_helper_writer => {
 
 
 
-#line 175 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                                           
-                                if (!string.IsNullOrEmpty(mayBeEmpty)) {
+#line 160 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+                                                                                 
+    if (!string.IsNullOrEmpty(mayBeEmpty)) {
 #line default
 #line hidden
 
 
-#line 176 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                             WebViewPage.WriteTo(@__razor_helper_writer, template(null));
+#line 161 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+ WebViewPage.WriteTo(@__razor_helper_writer, template(null));
 
 #line default
 #line hidden
 
 
-#line 176 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
-                                                                                       }
-                                
+#line 161 "..\..\TwitterBootstrapHtmlHelpers.cshtml"
+                                                           }
+
 #line default
 #line hidden
 
 });
 
-                                }
+}
 
 
     }
