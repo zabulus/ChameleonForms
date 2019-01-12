@@ -86,7 +86,7 @@ namespace ChameleonForms.Tests.Helpers
 
             var routeData = new RouteData();
             var modelState = new ModelStateDictionary();
-            var actionDescriptor = new PageActionDescriptor();
+            var actionDescriptor = new ControllerActionDescriptor();
             var actionContext = new ActionContext(httpContext, routeData, actionDescriptor, modelState);
             autoSubstitute.Provide(actionContext);
 

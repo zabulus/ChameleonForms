@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using System;
 using System.Globalization;
 using System.Threading.Tasks;
@@ -9,10 +12,14 @@ namespace ChameleonForms.ModelBinders
     /// <summary>
     /// Binds a datetime in a model using the display format string.
     /// </summary>
-    public class DateTimeModelBinder : IModelBinder
+    public class DateTimeModelBinder<T> : SimpleTypeModelBinder, IModelBinder
     {
+        public DateTimeModelBinder() : base(typeof(T), NullLoggerFactory.Instance)
+        {
+        }
+
         /// <inheritdoc />
-        public async Task BindModelAsync(ModelBindingContext bindingContext)
+        async Task IModelBinder.BindModelAsync(ModelBindingContext bindingContext)
         {
             var underlyingType = Nullable.GetUnderlyingType(bindingContext.ModelType) ?? bindingContext.ModelType;
 
@@ -33,7 +40,7 @@ namespace ChameleonForms.ModelBinders
 
             if (string.IsNullOrEmpty(submittedValue))
             {
-                bindingContext.ModelState.TryAddModelError(bindingContext.ModelName, "Submitted null or empty string");
+                await base.BindModelAsync(bindingContext);
                 return;
             }
 

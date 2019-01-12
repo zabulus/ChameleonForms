@@ -9,6 +9,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Collections.Generic;
 using Microsoft.Extensions.Primitives;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
+using Microsoft.AspNetCore.Mvc.Internal;
+using System;
 
 namespace ChameleonForms.Tests.ModelBinders
 {
@@ -31,10 +34,15 @@ namespace ChameleonForms.Tests.ModelBinders
             System.Threading.Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
         }
 
-        private ModelBindingContext ArrangeBindingContext()
+        private ModelBindingContext ArrangeBindingContext(Action<DefaultMetadataDetails> action = null)
         {
-            var modelMetadata = new EmptyModelMetadataProvider().GetMetadataForType(typeof(T));
-            //modelMetadata.DisplayName = DisplayName;
+            DefaultMetadataDetails details = new DefaultMetadataDetails(ModelMetadataIdentity.ForType(typeof(T)), ModelAttributes.GetAttributesForType(typeof(T)));
+            details.DisplayMetadata = new DisplayMetadata();
+            details.DisplayMetadata.DisplayName = () => DisplayName;
+            action?.Invoke(details);
+
+            var modelMetadata = new DefaultModelMetadata(new EmptyModelMetadataProvider(), new DefaultCompositeMetadataDetailsProvider(new IMetadataDetailsProvider[0]), details);
+
             return new DefaultModelBindingContext
             {
                 ModelName = PropertyName,
@@ -47,7 +55,7 @@ namespace ChameleonForms.Tests.ModelBinders
         private T BindModel(ModelBindingContext bindingContext)
         {
             new FlagsEnumModelBinder().BindModelAsync(bindingContext).Wait();
-            return (T) (bindingContext.Model ?? default(T));
+            return (T) (bindingContext.Result.Model ?? default(T));
         }
 
         private static void AssertModelError(ModelBindingContext context, string error)
@@ -102,7 +110,6 @@ namespace ChameleonForms.Tests.ModelBinders
             var model = BindModel(context);
 
             Assert.That(model, Is.EqualTo(TestFlagsEnum.Simplevalue));
-            Assert.That(context.Model, Is.EqualTo(TestFlagsEnum.Simplevalue));
         }
 
         [Test]
@@ -114,7 +121,6 @@ namespace ChameleonForms.Tests.ModelBinders
             var model = BindModel(context);
 
             Assert.That(model, Is.EqualTo(TestFlagsEnum.Simplevalue | TestFlagsEnum.ValueWithDescriptionAttribute));
-            Assert.That(context.Model, Is.EqualTo(TestFlagsEnum.Simplevalue | TestFlagsEnum.ValueWithDescriptionAttribute));
         }
     }
 }

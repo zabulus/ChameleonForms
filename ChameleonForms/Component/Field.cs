@@ -54,7 +54,7 @@ namespace ChameleonForms.Component
         /// <inheritdoc />
         public override IHtmlContent Begin()
         {
-            var isValid = Form.HtmlHelper.ViewData.ModelState.GetFieldValidationState(_fieldGenerator.GetFieldId()) == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Valid;
+            var isValid = Form.HtmlHelper.ViewData.ModelState.GetFieldValidationState(_fieldGenerator.GetFieldId()) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid;
             var readonlyConfig = _fieldGenerator.PrepareFieldConfiguration(_config, FieldParent.Section);
             return !IsParent
                 ? Form.Template.Field(_fieldGenerator.GetLabelHtml(readonlyConfig), _fieldGenerator.GetFieldHtml(readonlyConfig), _fieldGenerator.GetValidationHtml(readonlyConfig), _fieldGenerator.Metadata, readonlyConfig, isValid)

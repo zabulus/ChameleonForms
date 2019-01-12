@@ -41,16 +41,25 @@ namespace ChameleonForms
         /// <param name="model">An instance of the model type to use as the model</param>
         /// <param name="htmlFieldPrefix">A prefix value to use for field names</param>
         /// <returns>The HTML helper against the other model type</returns>
-        public static DisposableHtmlHelper<TModel> For<TModel>(this IHtmlHelper htmlHelper, TModel model = default(TModel), string htmlFieldPrefix = null)
+        public static DisposableHtmlHelper<TModel> For<TModel>(this IHtmlHelper htmlHelper
+            , TModel model = default(TModel)
+            , string htmlFieldPrefix = null
+            )
         {
             var viewContext = htmlHelper.ViewContext;
             var newViewData = new ViewDataDictionary<TModel>(htmlHelper.MetadataProvider, new ModelStateDictionary());
             newViewData.Model = model;
+            foreach (var data in htmlHelper.ViewData)
+            {
+                newViewData.Add(data.Key, data.Value);
+            }
 
-            var templateInfo = newViewData.TemplateInfo;
+            var templateInfo = htmlHelper.ViewData.TemplateInfo;
 
-            if (!String.IsNullOrEmpty(htmlFieldPrefix))
-                templateInfo.HtmlFieldPrefix = templateInfo.GetFullHtmlFieldName(htmlFieldPrefix);
+            if (!string.IsNullOrEmpty(htmlFieldPrefix))
+            {
+                newViewData.TemplateInfo.HtmlFieldPrefix = templateInfo.GetFullHtmlFieldName(htmlFieldPrefix);
+            }
             
             var newViewContext = new ViewContext(viewContext
                 , viewContext.View
@@ -73,32 +82,17 @@ namespace ChameleonForms
             var htmlEncoder = htmlHelper.ViewContext.HttpContext.RequestServices.GetRequiredService<HtmlEncoder>();
             var urlEncoder = htmlHelper.ViewContext.HttpContext.RequestServices.GetRequiredService<UrlEncoder>();
             var expressionTextCache = htmlHelper.ViewContext.HttpContext.RequestServices.GetRequiredService<ExpressionTextCache>();
-            var ret = new DisposableHtmlHelper<TModel>(htmlGenerator, viewEngine, metadataProvider, bufferScope, htmlEncoder, urlEncoder, expressionTextCache);
+            var ret = new DisposableHtmlHelper<TModel>(htmlGenerator
+                , viewEngine
+                , metadataProvider
+                , bufferScope
+                , htmlEncoder
+                , urlEncoder
+                , expressionTextCache
+                );
             ret.Contextualize(newViewContext);
             return ret;
         }
-
-        //static IViewDataContainer CreateViewDataContainer(ViewDataDictionary viewData, object model)
-        //{
-
-        //    var newViewData = new ViewDataDictionary(viewData)
-        //    {
-        //        Model = model
-        //    };
-
-        //    newViewData.TemplateInfo.HtmlFieldPrefix = newViewData.TemplateInfo.HtmlFieldPrefix;
-
-        //    return new ViewDataContainer
-        //    {
-        //        ViewData = newViewData
-        //    };
-        //}
-
-        //class ViewDataContainer : IViewDataContainer
-        //{
-
-        //    public ViewDataDictionary ViewData { get; set; }
-        //}
     }
 
     /// <summary>
