@@ -145,7 +145,7 @@ namespace ChameleonForms.Tests.Helpers
             var textWriter = Substitute.For<TextWriter>();
             autoSubstitute.Provide(textWriter);
 
-            IValidationAttributeAdapterProvider validationAttributeAdapterProvider = new ValidationAttributeAdapterProvider();
+            IValidationAttributeAdapterProvider validationAttributeAdapterProvider = new CustomValidationAttributeAdapterProvider();
 
             autoSubstitute.Provide(validationAttributeAdapterProvider);
 

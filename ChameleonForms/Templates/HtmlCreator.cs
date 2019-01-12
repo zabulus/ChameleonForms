@@ -143,7 +143,7 @@ namespace ChameleonForms.Templates
                     option.Attributes.Add("selected", "selected");
                 option.Attributes.Add("value", item.Value);
                 option.InnerHtml.Append(item.Text);
-                t.InnerHtml.AppendHtml(option.ToString());
+                t.InnerHtml.AppendHtml(option);
             }
 
             return t;
