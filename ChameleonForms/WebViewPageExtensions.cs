@@ -3,6 +3,7 @@ using System.Linq.Expressions;
 
 using ChameleonForms.Component;
 using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace ChameleonForms
 {
@@ -70,9 +71,11 @@ namespace ChameleonForms
         {
             object currentForm;
             if (!partial.ViewData.TryGetValue(CurrentFormViewDataKey, out currentForm))
+            {
                 throw new InvalidOperationException("Not currently inside a form section.");
+            }
 
-            return (currentForm as IForm).CreatePartialForm<TPartialViewModel>(partial.PartialModelExpression(), null);
+            return (currentForm as IForm).CreatePartialForm<TPartialViewModel>(partial.PartialModelExpression(), (HtmlHelper<TPartialViewModel>)((dynamic)partial).Html);
         }
 
         /// <summary>
