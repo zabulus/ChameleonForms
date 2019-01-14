@@ -7,6 +7,7 @@ using System.Web;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using AutofacContrib.NSubstitute;
+using ChameleonForms.Attributes;
 using ChameleonForms.Example;
 using ChameleonForms.Metadata;
 using Microsoft.AspNetCore.Http;
@@ -50,7 +51,7 @@ namespace ChameleonForms.Tests.Helpers
                 new DefaultValidationMetadataProvider(),
                 autoSubstitute.Resolve<DataAnnotationsMetadataProvider>(),
                 // new DataMemberRequiredBindingMetadataProvider(),
-                new DisplayMetadataProvider(),
+                new ModelMetadataAwareDisplayMetadataProvider(),
             };
 
             var compositeDetailsProvider = new DefaultCompositeMetadataDetailsProvider(detailsProviders);
@@ -145,7 +146,7 @@ namespace ChameleonForms.Tests.Helpers
             var textWriter = Substitute.For<TextWriter>();
             autoSubstitute.Provide(textWriter);
 
-            IValidationAttributeAdapterProvider validationAttributeAdapterProvider = new CustomValidationAttributeAdapterProvider();
+            IValidationAttributeAdapterProvider validationAttributeAdapterProvider = new RequiredFlagsEnumAttributeAdapterProvider();
 
             autoSubstitute.Provide(validationAttributeAdapterProvider);
 

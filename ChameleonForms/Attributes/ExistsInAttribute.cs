@@ -46,7 +46,7 @@ namespace ChameleonForms.Attributes
 
         static ExistsInAttribute()
         {
-            DisplayMetadataProvider.RegisterMetadataAwareAttribute(typeof(ExistsInAttribute));
+            ModelMetadataAwareDisplayMetadataProvider.RegisterMetadataAwareAttribute(typeof(ExistsInAttribute));
         }
 
         /// <summary>

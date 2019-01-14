@@ -1,7 +1,10 @@
 ﻿using ChameleonForms.Attributes;
+using ChameleonForms.Metadata;
 using ChameleonForms.ModelBinders;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -18,10 +21,16 @@ namespace ChameleonForms
                 throw new ArgumentNullException("services");
             }
 
-            services.AddTransient<IModelBinderProvider, DateTimeModelBinderProvider<DateTime>>();
-            services.AddTransient<IModelBinderProvider, DateTimeModelBinderProvider<DateTime?>>();
-            services.AddTransient<IModelBinderProvider, FlagsEnumModelBinderProvider>();
-            services.AddTransient<IValidationAttributeAdapterProvider, RequiredFlagsEnumAttributeAdapterProvider>();
+            services.Configure<MvcOptions>(x =>
+            {
+                x.ModelMetadataDetailsProviders.Add(new HumanizedLabelsDisplayMetadataProvider());
+                x.ModelMetadataDetailsProviders.Add(new ModelMetadataAwareDisplayMetadataProvider());
+                x.ModelBinderProviders.Add(new DateTimeModelBinderProvider<DateTime>());
+                x.ModelBinderProviders.Add(new DateTimeModelBinderProvider<DateTime?>());
+                x.ModelBinderProviders.Add(new FlagsEnumModelBinderProvider());
+            });
+
+            services.AddSingleton<IValidationAttributeAdapterProvider, RequiredFlagsEnumAttributeAdapterProvider>();
         }
     }
 }

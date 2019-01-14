@@ -6,7 +6,7 @@ using System.Text;
 
 namespace ChameleonForms.Metadata
 {
-    public class DisplayMetadataProvider : IDisplayMetadataProvider
+    public class ModelMetadataAwareDisplayMetadataProvider : IDisplayMetadataProvider
     {
         private static List<Type> Registry = new List<Type>();
 

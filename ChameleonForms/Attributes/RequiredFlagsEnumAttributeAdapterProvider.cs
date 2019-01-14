@@ -1,12 +1,13 @@
 ﻿using ChameleonForms.Attributes;
 using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.DataAnnotations.Internal;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.Extensions.Localization;
 using System.ComponentModel.DataAnnotations;
 
 namespace ChameleonForms.Attributes
 {
-    internal class RequiredFlagsEnumAttributeAdapterProvider : ValidationAttributeAdapterProvider
+    public class RequiredFlagsEnumAttributeAdapterProvider : ValidationAttributeAdapterProvider
         , IValidationAttributeAdapterProvider
     {
         IAttributeAdapter IValidationAttributeAdapterProvider.GetAttributeAdapter(ValidationAttribute attribute

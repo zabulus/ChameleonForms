@@ -12,10 +12,6 @@
 	<EnableDefaultContentItems>True</EnableDefaultContentItems>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="HumanizedLabels.cs" />
-  </ItemGroup>
-
 
   <ItemGroup>
     <PackageReference Include="Humanizer" Version="2.5.16" />
