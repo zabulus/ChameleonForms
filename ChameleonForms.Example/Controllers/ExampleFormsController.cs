@@ -161,6 +161,9 @@ namespace ChameleonForms.Example.Controllers
         [DisplayFormat(DataFormatString = "{0:g}", ApplyFormatInEditMode = true)]
         public DateTime DateTimeWithG { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:g}", ApplyFormatInEditMode = true)]
+        public DateTime? NullableDateTimeWithG { get; set; }
+
         public bool RequiredBool { get; set; }
         [Required]
         public bool? RequiredNullableBool { get; set; }

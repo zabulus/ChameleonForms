@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using AngleSharp.Dom.Html;
+using ChameleonForms.AcceptanceTests.Helpers.Pages;
 using Xunit;
 
 namespace RazorPagesProject.Tests.Helpers
@@ -36,8 +37,27 @@ namespace RazorPagesProject.Tests.Helpers
         {
             foreach (var kvp in formValues)
             {
-                var element = Assert.IsAssignableFrom<IHtmlInputElement>(form[kvp.Key]);
-                element.Value = kvp.Value;
+                //if (form[0] is IHtmlFieldSetElement fieldSet)
+                //{
+                //    var element = Assert.IsAssignableFrom<IHtmlInputElement>(fieldSet.Elements[kvp.Key]);
+                //    element.Value = kvp.Value;
+                //}
+                //else
+                {
+                    var el = form.Elements[kvp.Key];
+                    if (el is IHtmlInputElement inputElement)
+                    {
+                        inputElement.Value = kvp.Value;
+                    }
+                    else if(el is IHtmlSelectElement selectElement)
+                    {
+                        selectElement.Value = kvp.Value;
+                    }
+                    else
+                    {
+                        Assert.False(true);
+                    }
+                }
             }
 
             var submit = form.GetSubmission(submitButton);
@@ -59,6 +79,13 @@ namespace RazorPagesProject.Tests.Helpers
             }
 
             return client.SendAsync(submision);
+        }
+
+        public static async Task<T> GetPageAsync<T>(this HttpClient self, string url) where T : ChameleongFormsPageBase
+        {
+            var html = await self.GetAsync(url);
+            var content = await HtmlHelpers.GetDocumentAsync(html);
+            return (T)Activator.CreateInstance(typeof(T), content);
         }
     }
 }

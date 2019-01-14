@@ -8,11 +8,6 @@ using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Xunit;
-//using ApprovalTests.Html;
-//using ApprovalTests.Reporters;
-//using NUnit.Framework;
-//using OpenQA.Selenium;
-//using OpenQA.Selenium.Support.UI;
 
 namespace ChameleonForms.AcceptanceTests
 {
