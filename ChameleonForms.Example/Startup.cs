@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace ChameleonForms.Example2
+namespace ChameleonForms.Example
 {
     public class Startup
     {
@@ -16,6 +16,7 @@ namespace ChameleonForms.Example2
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddChameleonForms();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -36,7 +37,7 @@ namespace ChameleonForms.Example2
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller}/{action=Index}/{id?}");
+                    template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

@@ -1,51 +1,27 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
-	<EnableDefaultRazorGenerateItems>true</EnableDefaultRazorGenerateItems>
-	<RazorCompileOnBuild>True</RazorCompileOnBuild>
-	<ApplicationIcon />
-	<OutputType>Library</OutputType>
-	<StartupObject />
-	<RazorOutputPath>d:\Workshop\ChameleonForms\ChameleonForms\bin\</RazorOutputPath>
-	<RazorTargetName>HtmlHelperRazorAssembly</RazorTargetName>
-	<EnableDefaultContentItems>True</EnableDefaultContentItems>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="HumanizedLabels.cs" />
-    <Compile Remove="HumanizedLabelsTests.cs" />
-  </ItemGroup>
-
-
-  <ItemGroup>
+    <PackageReference Include="AngleSharp" Version="0.9.11" />
     <PackageReference Include="ApprovalTests" Version="3.0.18" />
-    <PackageReference Include="ApprovalUtilities" Version="3.0.18" />
-    <PackageReference Include="Castle.Core" Version="4.3.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.ViewCompilation" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" />
-    <PackageReference Include="Microsoft.NET.Sdk.Razor" Version="2.2.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
-    <PackageReference Include="NUnit" Version="3.11.0" />
-    <PackageReference Include="NUnit3TestAdapter" Version="3.12.0" />
-    <PackageReference Include="Selenium.Firefox.WebDriver" Version="0.23.0" />
-    <PackageReference Include="Selenium.Support" Version="3.141.0" />
-    <PackageReference Include="Selenium.WebDriver" Version="3.141.0" />
-    <PackageReference Include="TestStack.Seleno" Version="0.9.61" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="2.1.1" />
+	<PackageReference Include="Microsoft.AspNetCore" Version="2.1.1" />
+    <PackageReference Include="xunit" Version="2.4.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1" />
+	<PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.1.1" />	
   </ItemGroup>
-
 
   <ItemGroup>
     <ProjectReference Include="..\ChameleonForms.Example\ChameleonForms.Example.csproj" />
-    <ProjectReference Include="..\ChameleonForms\ChameleonForms.csproj" />
   </ItemGroup>
 
-
   <ItemGroup>
-    <Reference Include="Microsoft.AspNetCore.Mvc.DataAnnotations">
-      <HintPath>C:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.aspnetcore.mvc.dataannotations\2.1.1\lib\netstandard2.0\Microsoft.AspNetCore.Mvc.DataAnnotations.dll</HintPath>
-    </Reference>
+    <Content Update="xunit.runner.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

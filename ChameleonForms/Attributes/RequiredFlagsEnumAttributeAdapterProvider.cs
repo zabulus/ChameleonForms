@@ -4,9 +4,10 @@ using Microsoft.AspNetCore.Mvc.DataAnnotations.Internal;
 using Microsoft.Extensions.Localization;
 using System.ComponentModel.DataAnnotations;
 
-namespace ChameleonForms.Tests.Helpers
+namespace ChameleonForms.Attributes
 {
-    internal class CustomValidationAttributeAdapterProvider : ValidationAttributeAdapterProvider, IValidationAttributeAdapterProvider
+    internal class RequiredFlagsEnumAttributeAdapterProvider : ValidationAttributeAdapterProvider
+        , IValidationAttributeAdapterProvider
     {
         IAttributeAdapter IValidationAttributeAdapterProvider.GetAttributeAdapter(ValidationAttribute attribute
             , IStringLocalizer stringLocalizer
