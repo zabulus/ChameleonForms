@@ -17,10 +17,7 @@ namespace ChameleonForms.AcceptanceTests.ModelBinding
         public ChangingContextShould(WebApplicationFactory<ChameleonForms.Example.Startup> factory)
         {
             _factory = factory;
-            _client = factory.CreateClient(new WebApplicationFactoryClientOptions
-            {
-                AllowAutoRedirect = false
-            });
+            _client = factory.CreateClient();
         }
 
         [Fact]

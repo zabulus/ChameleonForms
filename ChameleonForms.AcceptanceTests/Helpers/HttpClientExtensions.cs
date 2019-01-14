@@ -76,6 +76,9 @@ namespace RazorPagesProject.Tests.Helpers
                 var formaction = submitButton.GetAttribute("formaction");
                 target = new Uri(formaction, UriKind.Relative);
             }
+
+            submit.Body.Position = 0;
+
             var submision = new HttpRequestMessage(new HttpMethod(submit.Method.ToString()), target)
             {
                 Content = new StreamContent(submit.Body)
