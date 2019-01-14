@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using AngleSharp.Dom.Html;
@@ -29,34 +30,42 @@ namespace RazorPagesProject.Tests.Helpers
             return client.SendAsync(form, submitButton, formValues);
         }
 
+        public static async Task<HttpResponseMessage> SendAsync(this HttpClient client
+            , IHtmlFormElement form
+            , IHtmlElement submitButton
+            , IEnumerable<KeyValuePair<string, string>> formValues
+            )
+        {
+            return await SendAsync(client, new[] { form }, submitButton, formValues);
+        }
+
         public static Task<HttpResponseMessage> SendAsync(
             this HttpClient client,
-            IHtmlFormElement form,
+            IEnumerable<IHtmlFormElement> forms,
             IHtmlElement submitButton,
             IEnumerable<KeyValuePair<string, string>> formValues)
         {
+            IHtmlFormElement form = null;
             foreach (var kvp in formValues)
             {
-                //if (form[0] is IHtmlFieldSetElement fieldSet)
-                //{
-                //    var element = Assert.IsAssignableFrom<IHtmlInputElement>(fieldSet.Elements[kvp.Key]);
-                //    element.Value = kvp.Value;
-                //}
-                //else
+                var el = forms.Select(x => new { el = x.Elements[kvp.Key], form = x }).SingleOrDefault(x => x.el != null);
+                if (el == null)
                 {
-                    var el = form.Elements[kvp.Key];
-                    if (el is IHtmlInputElement inputElement)
-                    {
-                        inputElement.Value = kvp.Value;
-                    }
-                    else if(el is IHtmlSelectElement selectElement)
-                    {
-                        selectElement.Value = kvp.Value;
-                    }
-                    else
-                    {
-                        Assert.False(true);
-                    }
+                    Assert.False(el == null, kvp.Key);
+                }
+                else if (el.el is IHtmlInputElement inputElement)
+                {
+                    inputElement.Value = kvp.Value;
+                    form = el.form;
+                }
+                else if (el.el is IHtmlSelectElement selectElement)
+                {
+                    selectElement.Value = kvp.Value;
+                    form = el.form;
+                }
+                else
+                {
+                    Assert.False(true, el.el.GetType().Name);
                 }
             }
 
