@@ -1,4 +1,5 @@
-﻿using ChameleonForms.AcceptanceTests.ModelBinding;
+﻿using ChameleonForms.AcceptanceTests.Helpers.Pages;
+using ChameleonForms.AcceptanceTests.ModelBinding;
 using System.Collections;
 using System.Linq;
 using System.Reflection;

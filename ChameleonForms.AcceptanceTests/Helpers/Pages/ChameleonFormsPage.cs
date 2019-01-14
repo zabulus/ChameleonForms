@@ -19,7 +19,7 @@ namespace ChameleonForms.AcceptanceTests.Helpers.Pages
 
         protected IHtmlDocument Content { get; set; }
 
-        protected void InputModel(object model, string prefix, List<KeyValuePair<string, string>> values)
+        protected static void InputModel(object model, string prefix, List<KeyValuePair<string, string>> values)
         {
             foreach (var property in model.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance))
             {
@@ -79,16 +79,21 @@ namespace ChameleonForms.AcceptanceTests.Helpers.Pages
         {
         }
 
-        protected IEnumerable<KeyValuePair<string, string>> InputModel(TViewModel model)
+        internal static IEnumerable<KeyValuePair<string, string>> InputModel(TViewModel model, string prefix = "")
         {
             var list = new List<KeyValuePair<string, string>>();
-            InputModel(model, "", list);
+            InputModel(model, prefix, list);
             return list;
         }
 
         public TViewModel GetFormValues()
         {
             return (TViewModel)GetFormValues(typeof(TViewModel), "");
+        }
+
+        public T GetComponent<T>() where T : ChameleongFormsPageBase
+        {
+            return (T)Activator.CreateInstance(typeof(T), Content);
         }
     }
 }
