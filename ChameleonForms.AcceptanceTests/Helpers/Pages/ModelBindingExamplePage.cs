@@ -18,7 +18,7 @@ namespace ChameleonForms.AcceptanceTests.ModelBinding.Pages
         public async Task<ModelBindingExamplePage> SubmitAsync(HttpClient client, ModelBindingViewModel vm)
         {
             IEnumerable<KeyValuePair<string, string>> dict = InputModel(vm);
-            return new ModelBindingExamplePage(await HtmlHelpers.GetDocumentAsync(await client.SendAsync((IHtmlFormElement)this.Content.QuerySelector("form")
+            return new ModelBindingExamplePage(await HtmlHelpers.GetDocumentAsync(await client.SendAsync("/ExampleForms/ModelBindingExample"
                 , (IHtmlElement)this.Content.QuerySelector("button[type=submit]")
                 , dict
                 )));

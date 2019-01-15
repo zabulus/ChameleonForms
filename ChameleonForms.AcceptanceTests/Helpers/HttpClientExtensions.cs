@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using AngleSharp;
 using AngleSharp.Dom.Html;
+using AngleSharp.Html;
+using AngleSharp.Network;
 using ChameleonForms.AcceptanceTests.Helpers.Pages;
 using Xunit;
 
@@ -37,6 +40,40 @@ namespace RazorPagesProject.Tests.Helpers
             )
         {
             return await SendAsync(client, new[] { form }, submitButton, formValues);
+        }
+
+        public static Task<HttpResponseMessage> SendAsync(this HttpClient client
+            , string url
+            , IHtmlElement submitButton
+            , IEnumerable<KeyValuePair<string, string>> formValues
+            )
+        {
+            var formaction = submitButton.GetAttribute("formaction");
+
+            Url target = Url.Create(url);
+
+            FormDataSet fds = new FormDataSet();
+            foreach(var val in formValues)
+            {
+                fds.Append(val.Key, val.Value, InputTypeNames.Text);
+            }
+
+            var submit = DocumentRequest.Post(target, fds.AsUrlEncoded(), MimeTypeNames.UrlencodedForm);
+
+            submit.Body.Position = 0;
+
+            var submision = new HttpRequestMessage(new System.Net.Http.HttpMethod(submit.Method.ToString()), target)
+            {
+                Content = new StreamContent(submit.Body)
+            };
+
+            foreach (var header in submit.Headers)
+            {
+                submision.Headers.TryAddWithoutValidation(header.Key, header.Value);
+                submision.Content.Headers.TryAddWithoutValidation(header.Key, header.Value);
+            }
+
+            return client.SendAsync(submision);
         }
 
         public static Task<HttpResponseMessage> SendAsync(
@@ -79,7 +116,7 @@ namespace RazorPagesProject.Tests.Helpers
 
             submit.Body.Position = 0;
 
-            var submision = new HttpRequestMessage(new HttpMethod(submit.Method.ToString()), target)
+            var submision = new HttpRequestMessage(new System.Net.Http.HttpMethod(submit.Method.ToString()), target)
             {
                 Content = new StreamContent(submit.Body)
             };

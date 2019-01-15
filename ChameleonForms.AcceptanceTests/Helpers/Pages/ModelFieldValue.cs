@@ -45,9 +45,15 @@ namespace ChameleonForms.AcceptanceTests.ModelBinding.Pages
             get
             {
                 if (!HasMultipleValues)
-                    throw new InvalidOperationException("Field does not have multiple values!");
+                {
+                    return new string[] { Value };
+                }
+
                 if (_value == null)
-                    return new string[] {};
+                {
+                    return new string[] { };
+                }
+
                 var underlyingType = Nullable.GetUnderlyingType(_value.GetType()) ?? _value.GetType();
                 if (underlyingType.IsEnum)
                     return Enum.GetValues(underlyingType)
@@ -66,7 +72,7 @@ namespace ChameleonForms.AcceptanceTests.ModelBinding.Pages
             {
                 var val = string.Empty;
                 if (HasMultipleValues)
-                    val = string.Join(",", Values);
+                    val = string.Join(", ", Values);
                 else if (_value != null)
                     val = _value is bool ? _value.ToString().ToLower() : string.Format(_format, _value);
                 return val;

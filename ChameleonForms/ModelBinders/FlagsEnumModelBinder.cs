@@ -17,35 +17,22 @@ namespace ChameleonForms.ModelBinders
         {
             var underlyingType = Nullable.GetUnderlyingType(bindingContext.ModelType) ?? bindingContext.ModelType;
             var value = bindingContext.ValueProvider.GetValue(bindingContext.ModelName);
-            var submittedValue = value == null ? null : value.FirstValue;
-
-            if (
-                !underlyingType.IsEnum
-                ||
-                !underlyingType.GetCustomAttributes(typeof(FlagsAttribute), false).Any()
-                ||
-                (string.IsNullOrEmpty(submittedValue))
-            )
-            {
-                bindingContext.Result = ModelBindingResult.Failed();
-                return;
-            }
-
+            var enumValues = value.Values;
+            
             var enumValueAsLong = 0L;
-            var enumValues = submittedValue.Split(',');
-            var error = false;
+            var error = true;
 
-            foreach (var v in enumValues)
+            foreach (var enumValue in enumValues)
             {
-                if (Enum.IsDefined(underlyingType, v))
+                if (Enum.IsDefined(underlyingType, enumValue))
                 {
-                    var valueAsEnum = Enum.Parse(underlyingType, v, true);
+                    var valueAsEnum = Enum.Parse(underlyingType, enumValue, true);
                     enumValueAsLong |= Convert.ToInt64(valueAsEnum);
+                    error = false;
                 }
                 else
                 {
-                    error = true;
-                    bindingContext.ModelState.AddModelError(bindingContext.ModelName, string.Format("The value '{0}' is not valid for {1}.", v, bindingContext.ModelMetadata.DisplayName ?? bindingContext.ModelMetadata.PropertyName));
+                    bindingContext.ModelState.AddModelError(bindingContext.ModelName, string.Format("The value '{0}' is not valid for {1}.", enumValue, bindingContext.ModelMetadata.DisplayName ?? bindingContext.ModelMetadata.PropertyName));
                 }
             }
 

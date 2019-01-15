@@ -35,9 +35,12 @@ namespace ChameleonForms.AcceptanceTests.Helpers.Pages
                     InputModel(property.GetValue(model, null), propertyName, values);
                     continue;
                 }
-                
-                var format = PropertyExtensions. GetFormatStringForProperty(property);
-                values.Add(new KeyValuePair<string, string>(propertyName, new ModelFieldValue(property.GetValue(model, null), format).Value));
+
+                var format = PropertyExtensions.GetFormatStringForProperty(property);
+                foreach (var val in new ModelFieldValue(property.GetValue(model, null), format).Values)
+                {
+                    values.Add(new KeyValuePair<string, string>(propertyName, val));
+                }
             }
         }
 
