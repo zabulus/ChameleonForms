@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace ChameleonForms.AcceptanceTests.ModelBinding.Pages
@@ -72,9 +73,14 @@ namespace ChameleonForms.AcceptanceTests.ModelBinding.Pages
             {
                 var val = string.Empty;
                 if (HasMultipleValues)
+                {
                     val = string.Join(", ", Values);
+                }
                 else if (_value != null)
-                    val = _value is bool ? _value.ToString().ToLower() : string.Format(_format, _value);
+                {
+                    val = _value is bool ? _value.ToString().ToLower() : string.Format(CultureInfo.CurrentCulture, _format, _value);
+                }
+
                 return val;
             }
         }

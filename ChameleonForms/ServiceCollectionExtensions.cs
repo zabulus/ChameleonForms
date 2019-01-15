@@ -26,8 +26,8 @@ namespace ChameleonForms
             {
                 x.ModelMetadataDetailsProviders.Add(new HumanizedLabelsDisplayMetadataProvider());
                 x.ModelMetadataDetailsProviders.Add(new ModelMetadataAwareDisplayMetadataProvider());
-                //x.ModelBinderProviders.Add(new DateTimeModelBinderProvider<DateTime>());
-                //x.ModelBinderProviders.Add(new DateTimeModelBinderProvider<DateTime?>());
+
+                x.ModelBinderProviders.Insert(0, new DateTimeModelBinderProvider());
                 x.ModelBinderProviders.Insert(0, new FlagsEnumModelBinderProvider());
             });
 

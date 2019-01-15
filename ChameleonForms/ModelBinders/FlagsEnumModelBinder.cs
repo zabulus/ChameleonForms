@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,37 +14,49 @@ namespace ChameleonForms.ModelBinders
     public class FlagsEnumModelBinder : IModelBinder
     {
         /// <inheritdoc />
-        public async Task BindModelAsync(ModelBindingContext bindingContext)
+        public Task BindModelAsync(ModelBindingContext bindingContext)
         {
+            var nullable = bindingContext.ModelType.IsGenericType && bindingContext.ModelType.GetGenericTypeDefinition() == typeof(Nullable<>);
             var underlyingType = Nullable.GetUnderlyingType(bindingContext.ModelType) ?? bindingContext.ModelType;
             var value = bindingContext.ValueProvider.GetValue(bindingContext.ModelName);
             var enumValues = value.Values;
             
-            var enumValueAsLong = 0L;
-            var error = true;
+            long? enumValueAsLong = null;
 
-            foreach (var enumValue in enumValues)
+            foreach (var enumValue in enumValues.Where(x => !string.IsNullOrEmpty(x)))
             {
                 if (Enum.IsDefined(underlyingType, enumValue))
                 {
                     var valueAsEnum = Enum.Parse(underlyingType, enumValue, true);
-                    enumValueAsLong |= Convert.ToInt64(valueAsEnum);
-                    error = false;
+                    enumValueAsLong = (enumValueAsLong ?? 0) | Convert.ToInt64(valueAsEnum);
                 }
                 else
                 {
-                    bindingContext.ModelState.AddModelError(bindingContext.ModelName, string.Format("The value '{0}' is not valid for {1}.", enumValue, bindingContext.ModelMetadata.DisplayName ?? bindingContext.ModelMetadata.PropertyName));
+                    bindingContext.ModelState.AddModelError(bindingContext.ModelName
+                        , string.Format("The value '{0}' is not valid for {1}."
+                            , enumValue
+                            , bindingContext.ModelMetadata.DisplayName ?? bindingContext.ModelMetadata.PropertyName
+                            ));
                 }
             }
-
-            if (error)
+            
+            if(enumValueAsLong == null)
             {
-                bindingContext.Result = ModelBindingResult.Success(Activator.CreateInstance(bindingContext.ModelType));
+                if(nullable)
+                {
+                    bindingContext.Result = ModelBindingResult.Success(null);
+                }
+                else
+                {
+                    bindingContext.Result = ModelBindingResult.Failed();
+                }
             }
             else
             {
                 bindingContext.Result = ModelBindingResult.Success(Enum.Parse(underlyingType, enumValueAsLong.ToString()));
             }
+
+            return Task.CompletedTask;
         }
     }
 }

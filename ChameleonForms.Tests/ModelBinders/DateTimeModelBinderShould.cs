@@ -57,7 +57,7 @@ namespace ChameleonForms.Tests.ModelBinders
 
         private T BindModel(ModelBindingContext bindingContext)
         {
-            ((IModelBinder)new DateTimeModelBinder<T>()).BindModelAsync(bindingContext).Wait();
+            new DateTimeModelBinder().BindModelAsync(bindingContext).Wait();
             return (T)(bindingContext.Result.Model ?? default(T));
         }
 
@@ -68,22 +68,7 @@ namespace ChameleonForms.Tests.ModelBinders
             Assert.That(context.ModelState[PropertyName].Errors[0].ErrorMessage, Is.EqualTo(error), "Expecting different error message for model state against " + PropertyName);
         }
         #endregion
-
-        [Test]
-        public void Use_default_model_binder_when_there_is_no_display_format()
-        {
-            using (ChangeCulture.To("en-AU"))
-            {
-                _formCollection = new FormCollection(new Dictionary<string, StringValues> { { PropertyName, "01/13/2013" } });
-                var context = ArrangeBindingContext();
-
-                var model = BindModel(context);
-
-                Assert.That(model, Is.EqualTo(default(T)));
-                Assert.That(context.ModelState.IsValid, Is.False);
-            }
-        }
-
+        
         [Test]
         public void Use_default_model_binder_when_there_is_a_display_format_but_no_value([Values("", null)] string value)
         {

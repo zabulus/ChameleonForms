@@ -41,10 +41,10 @@ namespace ChameleonForms.AcceptanceTests.ModelBinding
             var page = await _client.GetPageAsync<ModelBindingExamplePage>("/ExampleForms/ModelBindingExample");
             page = await page.SubmitAsync(_client, enteredViewModel);
 
+            enteredViewModel.OptionalNullableEnums = null; // it's ok
             IsSame.ViewModelAs(enteredViewModel, page.GetFormValues());
-            Assert.False(page.HasValidationErrors());
+            Assert.False(page.HasValidationErrors(), "HasValidationErrors");
         }
-
 
         [Fact]
         public async Task Function_correctly_with_checkbox_and_radio_lists()

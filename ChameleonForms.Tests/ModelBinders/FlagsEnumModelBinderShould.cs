@@ -115,7 +115,10 @@ namespace ChameleonForms.Tests.ModelBinders
         [Test]
         public void Return_and_bind_value_if_multiple_value_ok()
         {
-            _formCollection = new FormCollection(new Dictionary<string, StringValues> { { PropertyName, TestFlagsEnum.Simplevalue + "," + TestFlagsEnum.ValueWithDescriptionAttribute } });
+            _formCollection = new FormCollection(new Dictionary<string, StringValues>
+            {
+                { PropertyName, new[] { TestFlagsEnum.Simplevalue.ToString(), TestFlagsEnum.ValueWithDescriptionAttribute.ToString() } }
+            });
             var context = ArrangeBindingContext();
 
             var model = BindModel(context);
