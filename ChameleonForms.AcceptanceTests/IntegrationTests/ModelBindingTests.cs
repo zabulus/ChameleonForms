@@ -41,7 +41,7 @@ namespace ChameleonForms.AcceptanceTests.ModelBinding
             var page = await _client.GetPageAsync<ModelBindingExamplePage>("/ExampleForms/ModelBindingExample");
             page = await page.SubmitAsync(_client, enteredViewModel);
 
-            enteredViewModel.OptionalNullableEnums = null; // it's ok
+            enteredViewModel.OptionalNullableEnums = null; // basicvalid.OptionalNullableEnums is List[null], so backward it's ok to have null here
             IsSame.ViewModelAs(enteredViewModel, page.GetFormValues());
             Assert.False(page.HasValidationErrors(), "HasValidationErrors");
         }
@@ -54,6 +54,7 @@ namespace ChameleonForms.AcceptanceTests.ModelBinding
             var page = await _client.GetPageAsync<ModelBindingExamplePage>("/ExampleForms/ModelBindingExample2");
             page = await page.SubmitAsync(_client, enteredViewModel);
 
+            enteredViewModel.OptionalNullableEnums = null; // basicvalid.OptionalNullableEnums is List[null], so backward it's ok to have null here
             IsSame.ViewModelAs(enteredViewModel, page.GetFormValues());
             Assert.False(page.HasValidationErrors());
         }
