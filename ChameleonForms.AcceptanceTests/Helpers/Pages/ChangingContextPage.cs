@@ -34,10 +34,12 @@ namespace ChameleonForms.AcceptanceTests.ModelBinding.Pages
 
         public async Task<ChangingContextPage> PostChildModelAsync(HttpClient client, ChildViewModel vm)
         {
-            return new ChangingContextPage(await HtmlHelpers.GetDocumentAsync(await client.SendAsync(Content.QuerySelectorAll("form").OfType<IHtmlFormElement>()
+            HttpResponseMessage response = await client.SendAsync(Content.QuerySelectorAll("form").OfType<IHtmlFormElement>()
                 , (IHtmlButtonElement)Content.QuerySelector("button[type=submit].child-model")
                 , PageAsChildModel.InputModel(vm)
-                )));
+                );
+            IHtmlDocument content = await HtmlHelpers.GetDocumentAsync(response);
+            return new ChangingContextPage(content);
         }
 
         public ParentViewModel ReadParentModel()
@@ -47,7 +49,12 @@ namespace ChameleonForms.AcceptanceTests.ModelBinding.Pages
 
         public async Task<ChangingContextPage> PostParentModelAsync(HttpClient client, ParentViewModel vm)
         {
-            return new ChangingContextPage(await HtmlHelpers.GetDocumentAsync(await client.SendAsync(Content.QuerySelectorAll("form").OfType<IHtmlFormElement>(), (IHtmlButtonElement)Content.QuerySelector("button[type=submit].parent-model"), InputModel(vm))));
+            HttpResponseMessage response = await client.SendAsync(Content.QuerySelectorAll("form").OfType<IHtmlFormElement>()
+                , (IHtmlButtonElement)Content.QuerySelector("button[type=submit].parent-model")
+                , InputModel(vm)
+                );
+            IHtmlDocument content = await HtmlHelpers.GetDocumentAsync(response);
+            return new ChangingContextPage(content);
         }
 
         public class PageAsDifferentModel : ChameleonFormsPage<BasicViewModel>

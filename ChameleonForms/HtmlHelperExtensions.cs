@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Mvc.ViewFeatures.Internal;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq.Expressions;
@@ -47,48 +46,29 @@ namespace ChameleonForms
             )
         {
             var viewContext = htmlHelper.ViewContext;
-            var newViewData = new ViewDataDictionary<TModel>(htmlHelper.MetadataProvider, new ModelStateDictionary());
-            newViewData.Model = model;
-            foreach (var data in htmlHelper.ViewData)
-            {
-                newViewData.Add(data.Key, data.Value);
-            }
-
-            var templateInfo = htmlHelper.ViewData.TemplateInfo;
+            var newViewData = new ViewDataDictionary<TModel>(viewContext.ViewData, model);
 
             if (!string.IsNullOrEmpty(htmlFieldPrefix))
             {
-                newViewData.TemplateInfo.HtmlFieldPrefix = templateInfo.GetFullHtmlFieldName(htmlFieldPrefix);
+                newViewData.TemplateInfo.HtmlFieldPrefix = htmlHelper.ViewData.TemplateInfo.GetFullHtmlFieldName(htmlFieldPrefix);
             }
-            
+
             var newViewContext = new ViewContext(viewContext
                 , viewContext.View
                 , newViewData
-                , viewContext.TempData
                 , viewContext.Writer
-                , new HtmlHelperOptions
-                {
-                    ClientValidationEnabled = viewContext.ClientValidationEnabled,
-                    Html5DateRenderingMode = viewContext.Html5DateRenderingMode,
-                    ValidationMessageElement = viewContext.ValidationMessageElement,
-                    ValidationSummaryMessageElement = viewContext.ValidationSummaryMessageElement
-                }
                 );
 
             var htmlGenerator = htmlHelper.ViewContext.HttpContext.RequestServices.GetRequiredService<IHtmlGenerator>();
             var viewEngine = htmlHelper.ViewContext.HttpContext.RequestServices.GetRequiredService<ICompositeViewEngine>();
-            var metadataProvider = htmlHelper.ViewContext.HttpContext.RequestServices.GetRequiredService<IModelMetadataProvider>();
             var bufferScope = htmlHelper.ViewContext.HttpContext.RequestServices.GetRequiredService<IViewBufferScope>();
-            var htmlEncoder = htmlHelper.ViewContext.HttpContext.RequestServices.GetRequiredService<HtmlEncoder>();
-            var urlEncoder = htmlHelper.ViewContext.HttpContext.RequestServices.GetRequiredService<UrlEncoder>();
-            var expressionTextCache = htmlHelper.ViewContext.HttpContext.RequestServices.GetRequiredService<ExpressionTextCache>();
             var ret = new DisposableHtmlHelper<TModel>(htmlGenerator
                 , viewEngine
-                , metadataProvider
+                , htmlHelper.MetadataProvider
                 , bufferScope
-                , htmlEncoder
-                , urlEncoder
-                , expressionTextCache
+                , HtmlEncoder.Default
+                , htmlHelper.UrlEncoder
+                , new ExpressionTextCache()
                 );
             ret.Contextualize(newViewContext);
             return ret;

@@ -23,7 +23,8 @@ namespace ChameleonForms.Tests
         public void Create_html_helper_against_same_request_context_with_different_type()
         {
             var newHtmlHelper = _h.For<AnotherViewModel>();
-            Assert.That(newHtmlHelper.ViewContext, Is.SameAs(_h.ViewContext));
+            Assert.That(newHtmlHelper.ViewContext.RouteData, Is.SameAs(_h.ViewContext.RouteData));
+            Assert.That(newHtmlHelper.ViewContext.HttpContext, Is.SameAs(_h.ViewContext.HttpContext));
         }
         
         [Test]

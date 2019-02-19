@@ -39,7 +39,10 @@ namespace ChameleonForms.AcceptanceTests.Helpers.Pages
                 var format = PropertyExtensions.GetFormatStringForProperty(property);
                 foreach (var val in new ModelFieldValue(property.GetValue(model, null), format).Values)
                 {
-                    values.Add(new KeyValuePair<string, string>(propertyName, val));
+                    if (val != null)
+                    {
+                        values.Add(new KeyValuePair<string, string>(propertyName, val));
+                    }
                 }
             }
         }

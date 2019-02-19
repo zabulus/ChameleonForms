@@ -71,7 +71,7 @@ namespace ChameleonForms.AcceptanceTests.ModelBinding.Pages
         {
             get
             {
-                var val = string.Empty;
+                string val = null;
                 if (HasMultipleValues)
                 {
                     val = string.Join(", ", Values);

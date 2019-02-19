@@ -85,7 +85,7 @@ namespace RazorPagesProject.Tests.Helpers
             IHtmlFormElement form = null;
             foreach (var kvp in formValues)
             {
-                var el = forms.Select(x => new { el = x.Elements[kvp.Key], form = x }).SingleOrDefault(x => x.el != null);
+                var el = forms.Select(x => new { el = x.Elements[kvp.Key.Replace(".", "_")], form = x }).SingleOrDefault(x => x.el != null);
                 if (el == null)
                 {
                     Assert.False(el == null, kvp.Key);
