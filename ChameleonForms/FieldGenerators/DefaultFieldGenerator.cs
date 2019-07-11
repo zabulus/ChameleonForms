@@ -70,7 +70,7 @@ namespace ChameleonForms.FieldGenerators
         }
 
         /// <inheritdoc />
-        public string GetFieldDisplayName()
+        public virtual string GetFieldDisplayName()
         {
             return Metadata.DisplayName
                 ?? Metadata.PropertyName
