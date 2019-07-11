@@ -6,6 +6,8 @@ using ChameleonForms.Enums;
 using System.Web.Mvc;
 using ChameleonForms.FieldGenerators;
 using ChameleonForms.FieldGenerators.Handlers;
+using System.Linq.Expressions;
+using System;
 
 namespace ChameleonForms.Templates
 {
@@ -152,5 +154,15 @@ namespace ChameleonForms.Templates
         /// <param name="isCheckbox">Whether the list is for checkboxes rather than radio buttons</param>
         /// <returns>The HTML for the radio list</returns>
         IHtmlString RadioOrCheckboxList(IEnumerable<IHtmlString> list, bool isCheckbox);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TModel"></typeparam>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        IFieldGenerator<TModel, T> CreateFieldGenerator<TModel, T>(HtmlHelper<TModel> htmlHelper
+            , Expression<Func<TModel, T>> property
+            );
     }
 }

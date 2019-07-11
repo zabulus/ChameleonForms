@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Web;
 using System.Web.Mvc;
 using ChameleonForms.Component;
@@ -136,6 +137,14 @@ namespace ChameleonForms.Templates.Default
         public virtual IHtmlString RadioOrCheckboxList(IEnumerable<IHtmlString> list, bool isCheckbox)
         {
             return DefaultHtmlHelpers.RadioOrCheckboxList(list);
+        }
+
+        /// <inheritdoc />
+        public virtual IFieldGenerator<TModel, T> CreateFieldGenerator<TModel, T>(HtmlHelper<TModel> htmlHelper
+            , Expression<Func<TModel, T>> property
+            )
+        {
+            return new DefaultFieldGenerator<TModel, T>(htmlHelper, property, this);
         }
     }
 }

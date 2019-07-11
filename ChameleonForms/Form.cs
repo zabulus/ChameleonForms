@@ -91,7 +91,7 @@ namespace ChameleonForms
         /// <inheritdoc />
         public virtual IFieldGenerator GetFieldGenerator<T>(Expression<Func<TModel, T>> property)
         {
-            return new DefaultFieldGenerator<TModel, T>(HtmlHelper, property, Template);
+            return Template.CreateFieldGenerator(HtmlHelper, property);
         }
 
         /// <inheritdoc />
