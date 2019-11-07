@@ -72,8 +72,16 @@ namespace ChameleonForms.FieldGenerators
         /// <inheritdoc />
         public string GetFieldDisplayName()
         {
-            return Metadata.DisplayName
-                ?? Metadata.PropertyName
+            try
+            {
+                return Metadata.DisplayName;
+            }
+            catch(InvalidOperationException)
+            {
+                // Means TypeResource doesn't have specified property
+            }
+
+            return Metadata.PropertyName
                 ?? ExpressionHelper.GetExpressionText(FieldProperty).Split('.').Last();
         }
 
