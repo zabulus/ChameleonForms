@@ -128,6 +128,12 @@ namespace ChameleonForms.Tests.FieldGenerator
         public int ReadonlyInt { get; set; }
 
         public ChildViewModel Child { get; set; }
+
+        [Display(ResourceType = typeof(TestResource), Name ="NonExistingResource")]
+        public string StringWithNonExistingResource { get; set; }
+
+        [Display(ResourceType = typeof(TestResource), Name = "ExistingResource")]
+        public string StringWithExistingResource { get; set; }
     }
 
     public class IntListItem

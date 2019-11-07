@@ -127,5 +127,26 @@ namespace ChameleonForms.Tests.FieldGenerator.DefaultFieldGenerator
 
             HtmlApprovals.VerifyHtml(result.ToHtmlString());
         }
+
+        [Test]
+        public void Use_correct_html_for_field_label_with_resource_display_name_exist()
+        {
+            var g = Arrange(m => m.StringWithExistingResource);
+
+            var result = g.GetLabelHtml(new FieldConfiguration());
+
+            HtmlApprovals.VerifyHtml(result.ToHtmlString());
+        }
+
+
+        [Test]
+        public void Use_correct_html_for_field_label_with_resource_display_name_not_exist()
+        {
+            var g = Arrange(m => m.StringWithNonExistingResource);
+
+            var result = g.GetLabelHtml(new FieldConfiguration());
+
+            HtmlApprovals.VerifyHtml(result.ToHtmlString());
+        }
     }
 }
